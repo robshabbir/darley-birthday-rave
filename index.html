@@ -10,7 +10,7 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; overflow: hidden; touch-action: manipulation; }
-body { min-height: 100vh; background: #000; font-family: 'Orbitron', sans-serif; color: white; position: fixed; width: 100%; user-select: none; -webkit-user-select: none; }
+body { min-height: 100vh; background: #000; font-family: 'Orbitron', sans-serif; color: white; position: fixed; width: 100%; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
 :root { --p: #ff00ff; --c: #00ffff; --y: #ffff00; --pu: #8b00ff; --g: #00ff66; --o: #ff6600; }
 
 #start-screen { position: fixed; inset: 0; background: radial-gradient(ellipse at center, #1a0a2e 0%, #0d0d1a 50%, #000 100%); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
@@ -20,7 +20,8 @@ body { min-height: 100vh; background: #000; font-family: 'Orbitron', sans-serif;
 .s-title{font-family:'Permanent Marker', cursive;font-size:clamp(3rem,18vw,7rem);font-weight:400;color:#fff;text-shadow:0 0 30px var(--p),0 0 60px var(--c),0 0 90px var(--p);animation:tg 2s ease-in-out infinite alternate;margin:.5rem 0}
 @keyframes tg{from{text-shadow:0 0 30px var(--p),0 0 60px var(--c)}to{text-shadow:0 0 50px var(--c),0 0 80px var(--p),0 0 120px var(--c)}}
 .s-sub{font-size:clamp(1rem,4vw,1.8rem);color:var(--c);text-transform:uppercase;letter-spacing:.5em;margin-bottom:2rem;text-shadow:0 0 20px var(--c)}
-.btn-tap{padding:1.5rem 4rem;font-size:clamp(1.2rem,5vw,1.8rem);font-weight:700;background:linear-gradient(135deg,var(--p),var(--pu));border:none;border-radius:60px;color:#fff;cursor:pointer;animation:bp 1s ease-in-out infinite;box-shadow:0 0 50px var(--p),0 0 100px var(--pu),inset 0 0 20px rgba(255,255,255,.2)}
+.btn-tap{padding:1.5rem 4rem;font-size:clamp(1.2rem,5vw,1.8rem);font-weight:700;background:linear-gradient(135deg,var(--p),var(--pu));border:none;border-radius:60px;color:#fff;cursor:pointer;animation:bp 1s ease-in-out infinite;box-shadow:0 0 50px var(--p),0 0 100px var(--pu),inset 0 0 20px rgba(255,255,255,.2);touch-action:manipulation;-webkit-touch-callout:none}
+.btn-tap:active{transform:scale(0.95)}
 @keyframes bp{0%,100%{transform:scale(1);box-shadow:0 0 50px var(--p),0 0 100px var(--pu)}50%{transform:scale(1.05);box-shadow:0 0 70px var(--p),0 0 140px var(--pu)}}
 
 .scene{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:2000}
@@ -117,7 +118,7 @@ body { min-height: 100vh; background: #000; font-family: 'Orbitron', sans-serif;
 .bdayText{position:fixed;bottom:38%;left:50%;transform:translateX(-50%);font-family:'Permanent Marker',cursive;font-size:clamp(1.5rem,7vw,3rem);color:#fff;text-shadow:0 0 20px var(--p),0 0 40px var(--c);z-index:175;display:none;animation:bounceText 1s infinite}
 .bdayText.on{display:block}
 @keyframes bounceText{0%,100%{transform:translateX(-50%)translateY(0)}50%{transform:translateX(-50%)translateY(-10px)}}
-.tapHint{position:fixed;bottom:5%;left:50%;transform:translateX(-50%);font-size:1rem;color:#fff;text-transform:uppercase;letter-spacing:.35em;animation:hintPulse 1s infinite;z-index:190;display:none;text-shadow:0 0 15px var(--p)}
+.tapHint{position:fixed;bottom:5%;left:50%;transform:translateX(-50%);font-size:1rem;color:#fff;text-transform:uppercase;letter-spacing:.35em;animation:hintPulse 1s infinite;z-index:500;display:none;text-shadow:0 0 15px var(--p);pointer-events:auto}
 .tapHint.on{display:block}
 @keyframes hintPulse{0%,100%{opacity:.5}50%{opacity:1}}
 
@@ -293,23 +294,26 @@ m.style.animationDuration=(8+Math.random()*4)+'s';m.style.animationDelay=(i*.5)+
 document.getElementById('moleculeZone').appendChild(m);}
 
 // Enter flow
-document.getElementById('enterBtn').onclick=function(){
-document.getElementById('start-screen').classList.add('hidden');
-document.getElementById('bgMusic').volume=.95;
-document.getElementById('bgMusic').play().catch(()=>{});
-document.getElementById('scene-walk').classList.add('active');
-setTimeout(function(){
-document.getElementById('scene-walk').classList.remove('active');
-document.getElementById('scene-id').classList.add('active');
-setTimeout(function(){
-document.getElementById('idOk').classList.add('show');
-setTimeout(function(){
-document.getElementById('scene-id').classList.remove('active');
-startDrugScan();
-},1600);
-},1600);
-},3000);
-};
+function handleEnter(e) {
+  if(e) { e.preventDefault(); e.stopPropagation(); }
+  document.getElementById('start-screen').classList.add('hidden');
+  document.getElementById('bgMusic').volume=.95;
+  document.getElementById('bgMusic').play().catch(()=>{});
+  document.getElementById('scene-walk').classList.add('active');
+  setTimeout(function(){
+  document.getElementById('scene-walk').classList.remove('active');
+  document.getElementById('scene-id').classList.add('active');
+  setTimeout(function(){
+  document.getElementById('idOk').classList.add('show');
+  setTimeout(function(){
+  document.getElementById('scene-id').classList.remove('active');
+  startDrugScan();
+  },1600);
+  },1600);
+  },3000);
+}
+document.getElementById('enterBtn').addEventListener('click', handleEnter);
+document.getElementById('enterBtn').addEventListener('touchstart', handleEnter, {passive: false});
 
 // Drug scan
 function startDrugScan(){
@@ -405,9 +409,6 @@ document.getElementById('gameStartBtn').classList.add('on');
 
 function startGame(){
 document.getElementById('gameStartBtn').classList.remove('on');
-
-// Subway Surfer style game
-function startGame(){
 gameOn=true;score=0;
 document.getElementById('scoreBox').textContent='SCORE: 0';
 document.getElementById('gameHud').classList.add('on');
@@ -509,17 +510,32 @@ document.getElementById('gameSkip').classList.remove('on');
 document.getElementById('tapHint').textContent='👆 TAP ANYWHERE FOR EFFECTS! 👆';
 }
 
-// Handlers
-document.addEventListener('click',function(){if(gameOn)doJump();});
-document.addEventListener('touchstart',function(e){if(gameOn){e.preventDefault();doJump();}},{passive:false});
-document.addEventListener('click',partyTap);
-document.addEventListener('touchstart',partyTap);
-function partyTap(){
-if(gameOn)return;
-if(!document.getElementById('darleyPhoto').classList.contains('on'))return;
-hitFX();
+// Handlers - unified touch/click
+function doJumpAction(e) {
+  if(gameOn) {
+    if(e) { e.preventDefault(); e.stopPropagation(); }
+    doJump();
+  }
 }
-document.getElementById('gameSkip').onclick=skipGame;
+
+document.addEventListener('click', doJumpAction);
+document.addEventListener('touchstart', doJumpAction, {passive: false});
+
+function partyTapAction(e) {
+  if(gameOn) return;
+  if(!document.getElementById('darleyPhoto').classList.contains('on')) return;
+  if(e) { e.preventDefault(); }
+  hitFX();
+}
+
+document.addEventListener('click', partyTapAction);
+document.addEventListener('touchstart', partyTapAction, {passive: false});
+
+document.getElementById('gameSkip').addEventListener('click', skipGame);
+document.getElementById('gameSkip').addEventListener('touchstart', function(e){e.preventDefault();skipGame();}, {passive: false});
+
+document.getElementById('gameStartBtn').addEventListener('click', function(e){e.preventDefault();startGame();});
+document.getElementById('gameStartBtn').addEventListener('touchstart', function(e){e.preventDefault();startGame();}, {passive: false});
 </script>
 </body>
 </html>
