@@ -16,7 +16,7 @@ body {
   overflow: hidden;
 }
 
-/* ============ START SCREEN ============ */
+/* ============ START ============ */
 #start {
   position: fixed; inset: 0;
   background: linear-gradient(135deg, #1a0a2e 0%, #0d0d1a 50%, #000 100%);
@@ -54,7 +54,7 @@ body {
 @keyframes walk { from{transform:translateX(-30px)scale(0.95)} to{transform:translateX(30px)scale(1.05)} }
 .walk-txt { color: #00d4ff; font-size: clamp(1rem, 4vw, 1.5rem); margin-top: 20px; }
 
-/* ============ ID SCENE ============ */
+/* ============ ID ============ */
 #scene-id { background: #020205; }
 .id-card { background: linear-gradient(145deg, #151520, #0a0a15); border: 3px solid #00d4ff; border-radius: 20px; padding: 25px; width: 85%; max-width: 280px; box-shadow: 0 0 40px rgba(0,212,255,0.3); }
 .id-cam { width: 70px; height: 70px; border-radius: 50%; background: #000; border: 4px solid #333; margin: 0 auto 15px; position: relative; }
@@ -68,19 +68,22 @@ body {
 .id-ok { color: #00ff88; font-weight: bold; margin-top: 10px; opacity: 0; transition: 0.5s; }
 .id-ok.show { opacity: 1; }
 
-/* ============ DRUG SCAN ============ */
-#scene-drug { background: linear-gradient(180deg, #0a0a15, #000); }
-.drug-card { background: linear-gradient(145deg, #1a1a28, #0d0d18); border: 3px solid #ff2d95; border-radius: 25px; padding: 25px; width: 85%; max-width: 300px; box-shadow: 0 0 50px rgba(255,45,149,0.4); position: relative; overflow: hidden; }
-.drug-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(255,45,149,0.3) 50%, transparent 70%); animation: scanPulse 1.5s infinite; }
-@keyframes scanPulse { 0%,100%{transform:translateY(-100%)} 50%{transform:translateY(100%)} }
-.drug-icon { font-size: clamp(3rem, 12vw, 5rem); animation: bounce 0.6s infinite; }
-.drug-status { font-size: clamp(1.2rem, 5vw, 1.8rem); font-weight: bold; margin-top: 15px; animation: pulse 0.5s infinite; }
-.drug-status.scanning { color: #ffd600; }
-.drug-status.clear { color: #00ff88; }
-.drug-result { margin-top: 20px; opacity: 0; transform: scale(0.5); transition: 0.5s; }
-.drug-result.show { opacity: 1; transform: scale(1); }
-.drug-result-emoji { font-size: clamp(3rem, 12vw, 5rem); }
-.drug-result-txt { color: #00ff88; font-weight: bold; font-size: clamp(1rem, 4vw, 1.3rem); }
+/* ============ SECURITY SCAN ============ */
+#scene-scan { background: linear-gradient(180deg, #0a0a15, #000); }
+.scan-container { width: 85%; max-width: 320px; position: relative; }
+.scan-title { font-size: clamp(1.2rem, 5vw, 2rem); color: #00d4ff; text-align: center; margin-bottom: 20px; letter-spacing: 0.1em; }
+.scan-box { background: linear-gradient(145deg, #1a1a28, #0d0d18); border: 3px solid #ff2d95; border-radius: 25px; padding: 30px; box-shadow: 0 0 50px rgba(255,45,149,0.4); position: relative; overflow: hidden; }
+.scan-beam { position: absolute; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, transparent, #00d4ff, white, #ff2d95, transparent); box-shadow: 0 0 20px #00d4ff; animation: beamScan 2s ease-in-out infinite; }
+@keyframes beamScan { 0%,100%{top:10%} 50%{top:80%} }
+.scan-items { position: absolute; inset: 0; overflow: hidden; }
+.scan-item { position: absolute; font-size: clamp(1.5rem, 6vw, 2.5rem); animation: itemFall 2s linear forwards; opacity: 0; }
+@keyframes itemFall { 0%{transform:translateY(-50px)rotate(0deg);opacity:1} 100%{transform:translateY(400px)rotate(360deg);opacity:0} }
+.scan-status { font-size: clamp(1.5rem, 6vw, 2.5rem); font-weight: bold; color: #ffd600; text-align: center; margin-top: 20px; animation: pulse 0.5s infinite; }
+.scan-status.clear { color: #00ff88; }
+.scan-result { margin-top: 25px; text-align: center; opacity: 0; transform: scale(0.5); transition: 0.5s; }
+.scan-result.show { opacity: 1; transform: scale(1); }
+.scan-result-emoji { font-size: clamp(4rem, 15vw, 6rem); }
+.scan-result-txt { font-size: clamp(1.2rem, 5vw, 1.8rem); color: #00ff88; font-weight: bold; margin-top: 10px; }
 
 /* ============ COUNTDOWN ============ */
 #countdown { background: rgba(0,0,0,0.95); }
@@ -91,63 +94,62 @@ body {
 /* ============ PARTY ============ */
 #party { background: #000; position: fixed; inset: 0; overflow: hidden; }
 .party-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at center, #1a0030 0%, #000 100%); }
-/* Disco ball */
-.disco { position: absolute; top: 5%; left: 50%; transform: translateX(-50%); font-size: clamp(2.5rem, 10vw, 4rem); animation: spin 3s linear infinite; }
 /* Lights */
 .lights { position: absolute; inset: 0; overflow: hidden; }
-.light { position: absolute; bottom: 0; width: 80px; height: 150vh; transform-origin: bottom; filter: blur(20px); opacity: 0.6; animation: lightMove 2s ease-in-out infinite; }
-.light:nth-child(1) { left: 10%; background: linear-gradient(to top, #ff2d95, transparent); animation-delay: 0s; }
-.light:nth-child(2) { left: 30%; background: linear-gradient(to top, #00d4ff, transparent); animation-delay: 0.3s; }
-.light:nth-child(3) { left: 50%; background: linear-gradient(to top, #ffd600, transparent); animation-delay: 0.6s; }
-.light:nth-child(4) { left: 70%; background: linear-gradient(to top, #00ff88, transparent); animation-delay: 0.9s; }
-.light:nth-child(5) { left: 90%; background: linear-gradient(to top, #ff00ff, transparent); animation-delay: 1.2s; }
-@keyframes lightMove { 0%,100%{transform:rotate(-15deg)scaleY(1);opacity:0.5} 50%{transform:rotate(15deg)scaleY(1.3);opacity:0.8} }
-@keyframes spin { from{transform:translateX(-50%)rotate(0deg)} to{transform:translateX(-50%)rotate(360deg)} }
+.light { position: absolute; bottom: 0; width: 100px; height: 180vh; transform-origin: bottom; filter: blur(25px); opacity: 0.7; animation: lightMove 2.5s ease-in-out infinite; }
+.light:nth-child(1) { left: 0%; background: linear-gradient(to top, #ff2d95, transparent); animation-delay: 0s; }
+.light:nth-child(2) { left: 20%; background: linear-gradient(to top, #00d4ff, transparent); animation-delay: 0.3s; }
+.light:nth-child(3) { left: 40%; background: linear-gradient(to top, #ffd600, transparent); animation-delay: 0.6s; }
+.light:nth-child(4) { left: 60%; background: linear-gradient(to top, #00ff88, transparent); animation-delay: 0.9s; }
+.light:nth-child(5) { left: 80%; background: linear-gradient(to top, #ff00ff, transparent); animation-delay: 1.2s; }
+@keyframes lightMove { 0%,100%{transform:rotate(-20deg)scaleY(1);opacity:0.5} 50%{transform:rotate(20deg)scaleY(1.4);opacity:0.9} }
 /* Floor */
-.floor { position: absolute; bottom: 0; left: -50%; right: -50%; height: 30%; background: repeating-conic-gradient(from 0deg, #111 0deg 10deg, #222 10deg 20deg); transform: perspective(500px) rotateX(60deg); animation: floorBeat 0.3s infinite; }
-@keyframes floorBeat { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.5)} }
+.floor { position: absolute; bottom: 0; left: -50%; right: -50%; height: 35%; background: repeating-conic-gradient(from 0deg, #111 0deg 10deg, #222 10deg 20deg); transform: perspective(500px) rotateX(65deg); animation: floorBeat 0.25s infinite; }
+@keyframes floorBeat { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.8)} }
 /* Stars */
 .stars { position: absolute; inset: 0; }
-.star { position: absolute; width: 3px; height: 3px; background: white; border-radius: 50%; animation: twinkle 2s infinite; }
+.star { position: absolute; width: 2px; height: 2px; background: white; border-radius: 50%; animation: twinkle 2s infinite; }
 @keyframes twinkle { 0%,100%{opacity:0.3} 50%{opacity:1} }
-/* Photo */
-.photo { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: clamp(150px, 50vw, 250px); height: clamp(150px, 50vw, 250px); border-radius: 50%; object-fit: cover; border: 8px solid white; box-shadow: 0 0 50px #ff2d95, 0 0 80px #00d4ff; animation: photoPulse 2s infinite; display: none; }
-.photo.show { display: block; }
-@keyframes photoPulse { 0%,100%{transform:translate(-50%,-50%)scale(1)} 50%{transform:translate(-50%,-50%)scale(1.05)} }
-/* Bday text */
-.bday-text { position: absolute; top: 12%; left: 50%; transform: translateX(-50%); font-size: clamp(1.2rem, 5vw, 2rem); font-weight: 900; text-align: center; color: white; text-shadow: 0 0 30px #ff2d95, 0 0 60px #00d4ff; animation: bounce 1s infinite; white-space: nowrap; display: none; }
-.bday-text.show { display: block; }
+/* Darley DANCING in center */
+.darley-container { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 50; }
+.darley-photo { width: clamp(180px, 55vw, 280px); height: clamp(180px, 55vw, 280px); border-radius: 50%; object-fit: cover; border: 8px solid white; box-shadow: 0 0 60px #ff2d95, 0 0 100px #00d4ff; animation: dance 0.3s infinite alternate; }
+@keyframes dance { from{transform:translate(-50%,-50%)scale(1)rotate(-3deg)} to{transform:translate(-50%,-50%)scale(1.05)rotate(3deg)} }
+/* Bday text at bottom */
+.bday-text { position: absolute; bottom: 8%; left: 50%; transform: translateX(-50%); font-size: clamp(1.2rem, 5vw, 2rem); font-weight: 900; text-align: center; color: white; text-shadow: 0 0 30px #ff2d95, 0 0 60px #00d4ff; white-space: nowrap; }
 /* Confetti */
-.confetti-zone { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+.confetti-zone { position: fixed; inset: 0; pointer-events: none; z-index: 60; overflow: hidden; }
 .confetti { position: absolute; width: 10px; height: 10px; top: -20px; animation: confettiFall 3s linear forwards; }
 @keyframes confettiFall { 0%{transform:translateY(0)rotate(0deg);opacity:1} 100%{transform:translateY(100vh)rotate(720deg);opacity:0} }
 /* Tap hint */
-.tap-hint { position: absolute; bottom: 8%; left: 50%; transform: translateX(-50%); padding: 12px 25px; background: rgba(255,45,149,0.3); border: 2px solid #ff2d95; border-radius: 25px; font-size: clamp(0.8rem, 3vw, 1rem); animation: pulse 1s infinite; display: none; }
-.tap-hint.show { display: block; }
+.tap-hint { position: absolute; top: 55%; left: 50%; transform: translate(-50%, 80px); padding: 10px 20px; background: rgba(255,45,149,0.4); border: 2px solid #ff2d95; border-radius: 20px; font-size: 0.9rem; animation: pulse 1s infinite; }
 
 /* ============ GAME ============ */
-.game-btn { position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%); padding: 18px 45px; font-size: clamp(1rem, 4vw, 1.4rem); font-weight: bold; background: linear-gradient(135deg, #ff2d95, #00d4ff); border: none; border-radius: 50px; color: white; box-shadow: 0 10px 30px rgba(255,45,149,0.5); animation: pulse 1.5s infinite; display: none; z-index: 100; }
-.game-btn.show { display: block; }
-.game-hud { position: absolute; top: 15px; right: 15px; font-size: 1.3rem; font-weight: bold; color: #ffd600; text-shadow: 0 0 15px #ffd600; display: none; z-index: 100; }
-.game-hud.show { display: block; }
-.track { position: absolute; bottom: 0; left: 0; right: 0; height: 35%; background: linear-gradient(180deg, transparent, rgba(0,0,0,0.8)); display: none; z-index: 60; }
-.track.show { display: block; }
-.runner { position: absolute; bottom: 18%; left: 50%; transform: translateX(-50%); font-size: clamp(3rem, 12vw, 5rem); display: none; filter: drop-shadow(0 0 20px #00d4ff); z-index: 70; }
-.runner.show { display: block; }
+.game-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; flex-direction: column; z-index: 80; }
+.game-overlay.show { display: flex; }
+.game-title { font-size: clamp(1.5rem, 6vw, 2.5rem); font-weight: 900; text-align: center; margin-bottom: 15px; color: #ffd600; text-shadow: 0 0 20px #ffd600; }
+.game-hud { position: absolute; top: 15px; right: 15px; font-size: 1.3rem; font-weight: bold; color: #ffd600; text-shadow: 0 0 15px #ffd600; }
+.game-btn { position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%); padding: 18px 45px; font-size: clamp(1rem, 4vw, 1.4rem); font-weight: bold; background: linear-gradient(135deg, #ff2d95, #00d4ff); border: none; border-radius: 50px; color: white; box-shadow: 0 10px 30px rgba(255,45,149,0.5); animation: pulse 1.5s infinite; }
+.track { position: absolute; bottom: 0; left: 0; right: 0; height: 30%; background: linear-gradient(180deg, transparent, rgba(0,0,0,0.9)); }
+.runner { position: absolute; bottom: 15%; left: 50%; transform: translateX(-50%); font-size: clamp(3rem, 12vw, 5rem); filter: drop-shadow(0 0 20px #00d4ff); z-index: 70; }
 .runner.jump { animation: jump 0.5s ease-out; }
-@keyframes jump { 0%{bottom:18%} 40%{bottom:40%} 100%{bottom:18%} }
-.game-item { position: absolute; font-size: clamp(2rem, 8vw, 3.5rem); bottom: 18%; z-index: 65; animation: itemMove 2.5s linear forwards; }
+@keyframes jump { 0%{bottom:15%} 40%{bottom:40%} 100%{bottom:15%} }
+.game-item { position: absolute; font-size: clamp(2rem, 8vw, 3.5rem); bottom: 15%; z-index: 65; animation: itemMove 2s linear forwards; }
 @keyframes itemMove { 0%{right:-50px} 100%{right:110%} }
-.game-obs { position: absolute; font-size: clamp(2rem, 8vw, 3.5rem); bottom: 18%; z-index: 65; animation: itemMove 2.5s linear forwards; }
-.skip-btn { position: absolute; bottom: 25%; left: 50%; transform: translateX(-50%); padding: 12px 30px; font-size: 0.9rem; background: linear-gradient(135deg, #00d4ff, #ff2d95); border: none; border-radius: 25px; color: white; display: none; z-index: 100; }
-.skip-btn.show { display: block; }
+.skip-btn { position: absolute; bottom: 22%; left: 50%; transform: translateX(-50%); padding: 10px 25px; font-size: 0.85rem; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); border-radius: 20px; color: white; }
 
 /* ============ GAME OVER ============ */
 .game-over { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 200; }
 .game-over.show { display: flex; }
-.game-over h1 { font-size: clamp(2rem, 10vw, 4rem); margin-bottom: 20px; }
-.game-over p { font-size: 1.5rem; color: #ffd600; margin-bottom: 30px; }
-.game-over button { padding: 15px 40px; font-size: 1.1rem; font-weight: bold; background: linear-gradient(135deg, #ff2d95, #00d4ff); border: none; border-radius: 40px; color: white; margin: 10px; }
+.game-over h1 { font-size: clamp(2rem, 10vw, 4rem); margin-bottom: 10px; }
+.game-over .score-final { font-size: 1.8rem; color: #ffd600; margin-bottom: 10px; }
+.game-over .high-score { font-size: 1.2rem; color: #00ff88; margin-bottom: 25px; }
+.game-over button { padding: 15px 40px; font-size: 1.1rem; font-weight: bold; background: linear-gradient(135deg, #ff2d95, #00d4ff); border: none; border-radius: 40px; color: white; margin: 8px; }
+.leaderboard { margin-top: 20px; text-align: center; }
+.leaderboard h3 { color: #00d4ff; margin-bottom: 10px; }
+.leaderboard-list { list-style: none; padding: 0; }
+.leaderboard-list li { padding: 5px 0; color: #aaa; font-size: 0.9rem; }
+.leaderboard-list li:first-child { color: #ffd600; font-size: 1.1rem; }
+
 .burst { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: clamp(2rem, 10vw, 4rem); font-weight: bold; color: white; text-shadow: 0 0 30px #ff2d95; animation: burst 0.6s forwards; z-index: 150; pointer-events: none; }
 @keyframes burst { 0%{transform:translate(-50%,-50%)scale(0);opacity:1} 50%{transform:translate(-50%,-50%)scale(1.5)} 100%{transform:translate(-50%,-50%)scale(2);opacity:0} }
 .flash { position: fixed; inset: 0; background: white; animation: flash 0.1s forwards; z-index: 140; pointer-events: none; }
@@ -182,14 +184,18 @@ body {
   </div>
 </div>
 
-<!-- DRUG SCAN -->
-<div id="scene-drug" class="scene">
-  <div class="drug-card">
-    <div class="drug-icon">🐕</div>
-    <div class="drug-status scanning" id="drugStatus">SCANNING...</div>
-    <div class="drug-result" id="drugResult">
-      <div class="drug-result-emoji">✅</div>
-      <div class="drug-result-txt">ALL CLEAR!</div>
+<!-- SECURITY SCAN -->
+<div id="scene-scan" class="scene">
+  <div class="scan-container">
+    <div class="scan-title">🔍 SECURITY SCAN 🔍</div>
+    <div class="scan-box">
+      <div class="scan-beam"></div>
+      <div class="scan-items" id="scanItems"></div>
+      <div class="scan-status" id="scanStatus">SCANNING...</div>
+      <div class="scan-result" id="scanResult">
+        <div class="scan-result-emoji">✅</div>
+        <div class="scan-result-txt">ALL CLEAR!</div>
+      </div>
     </div>
   </div>
 </div>
@@ -206,40 +212,57 @@ body {
   <div class="lights">
     <div class="light"></div><div class="light"></div><div class="light"></div><div class="light"></div><div class="light"></div>
   </div>
-  <div class="disco">🪩</div>
   <div class="stars" id="stars"></div>
   <div class="floor"></div>
-  <img src="darley-photo.jpg" class="photo" id="photo" alt="Happy Birthday Darley!">
-  <div class="bday-text" id="bdayText">🎉 HAPPY 25TH BIRTHDAY DARLEY! 🎉</div>
+  
+  <!-- DARLEY DANCING IN CENTER -->
+  <div class="darley-container">
+    <img src="darley-photo.jpg" class="darley-photo" alt="Happy Birthday Darley!">
+  </div>
+  
+  <div class="bday-text">🎉 HAPPY 25TH BIRTHDAY DARLEY! 🎉</div>
   <div class="confetti-zone" id="confettiZone"></div>
-  <div class="tap-hint" id="tapHint">👆 TAP ANYWHERE FOR EFFECTS! 👆</div>
+  <div class="tap-hint" id="tapHint">👆 TAP FOR CONFETTI! 👆</div>
+  
+  <!-- GAME OVERLAY -->
+  <div class="game-overlay" id="gameOverlay">
+    <div class="game-title">🏃 PARTY RUNNER 🏃</div>
+    <div class="game-hud">SCORE: <span id="score">0</span></div>
+    <div class="track"></div>
+    <div class="runner" id="runner">🕺</div>
+    <button class="skip-btn" id="skipBtn">⏭️ JUST PARTY</button>
+  </div>
   
   <button class="game-btn" id="gameBtn">🎮 TAP TO PLAY! 🎮</button>
-  <div class="game-hud" id="gameHud">SCORE: <span id="score">0</span></div>
-  <div class="track" id="track"></div>
-  <div class="runner" id="runner">🕺</div>
-  <button class="skip-btn" id="skipBtn">🎉 JUST PARTY!</button>
 </div>
 
 <!-- GAME OVER -->
 <div class="game-over" id="gameOver">
   <h1>🎮 GAME OVER!</h1>
-  <p>Final Score: <span id="finalScore">0</span></p>
+  <div class="score-final">Score: <span id="finalScore">0</span></div>
+  <div class="high-score">🏆 High Score: <span id="highScore">0</span></div>
   <button id="playAgainBtn">🔄 PLAY AGAIN</button>
   <button id="justPartyBtn">🎉 JUST PARTY!</button>
+  <div class="leaderboard">
+    <h3>🏆 LEADERBOARD</h3>
+    <ul class="leaderboard-list" id="leaderboardList"></ul>
+  </div>
 </div>
 
 <script>
-// ============ GAME STATE ============
+// ============ STATE ============
 let gameOn = false;
 let score = 0;
+let highScore = localStorage.getItem('darleyHighScore') || 0;
 let gameItems = [];
 let gameObs = [];
+const SCAN_ITEMS = ['💊', '💉', '🍄', '🧪', '💰', '💵', '🍬', '☘️', '🔫', '🔪'];
+const GOOD_ITEMS = ['💊', '💉', '💰', '💵', '🍄', '🧪', '🎂', '🎁', '💎', '🔥'];
+const BAD_ITEMS = ['🚧', '🪨', '👮', '💼'];
 
 // ============ INIT ============
 document.addEventListener('DOMContentLoaded', function() {
-  // Create stars
-  for(let i = 0; i < 40; i++) {
+  for(let i = 0; i < 50; i++) {
     let s = document.createElement('div');
     s.className = 'star';
     s.style.left = Math.random() * 100 + '%';
@@ -247,11 +270,12 @@ document.addEventListener('DOMContentLoaded', function() {
     s.style.animationDelay = Math.random() * 2 + 's';
     document.getElementById('stars').appendChild(s);
   }
+  document.getElementById('highScore').textContent = highScore;
+  updateLeaderboard();
 });
 
 // ============ ENTER FLOW ============
 document.getElementById('enterBtn').addEventListener('click', startFlow);
-document.getElementById('enterBtn').addEventListener('touchstart', function(e) { e.preventDefault(); startFlow(); });
 document.getElementById('start').addEventListener('click', startFlow);
 
 function startFlow() {
@@ -261,42 +285,53 @@ function startFlow() {
   setTimeout(function() {
     document.getElementById('scene-walk').classList.remove('active');
     document.getElementById('scene-id').classList.add('active');
-    
     setTimeout(function() {
       document.getElementById('idOk').classList.add('show');
-      
       setTimeout(function() {
         document.getElementById('scene-id').classList.remove('active');
-        startDrugScan();
+        startSecurityScan();
       }, 1800);
     }, 1500);
   }, 2500);
 }
 
-// ============ DRUG SCAN ============
-function startDrugScan() {
-  document.getElementById('scene-drug').classList.add('active');
-  const statuses = ['SCANNING...', 'ANALYZING...', 'CHECKING...', 'ALMOST DONE...'];
+// ============ SECURITY SCAN ============
+function startSecurityScan() {
+  document.getElementById('scene-scan').classList.add('active');
+  
+  // Spawn scanning items
+  let scanInterval = setInterval(function() {
+    let item = document.createElement('div');
+    item.className = 'scan-item';
+    item.textContent = SCAN_ITEMS[Math.floor(Math.random() * SCAN_ITEMS.length)];
+    item.style.left = (10 + Math.random() * 80) + '%';
+    item.style.animationDuration = (1.5 + Math.random()) + 's';
+    document.getElementById('scanItems').appendChild(item);
+    setTimeout(function() { item.remove(); }, 2500);
+  }, 200);
+  
+  const statuses = ['SCANNING...', 'ANALYZING...', 'CHECKING...', 'DETECTING...', 'ALMOST DONE...'];
   let idx = 0;
-  let interval = setInterval(function() {
+  let statusInterval = setInterval(function() {
     if(idx < statuses.length) {
-      document.getElementById('drugStatus').textContent = statuses[idx];
+      document.getElementById('scanStatus').textContent = statuses[idx];
       idx++;
     }
-  }, 700);
+  }, 600);
   
   setTimeout(function() {
-    clearInterval(interval);
-    document.getElementById('drugStatus').textContent = 'ALL CLEAR!';
-    document.getElementById('drugStatus').className = 'drug-status clear';
-    document.getElementById('drugResult').classList.add('show');
+    clearInterval(scanInterval);
+    clearInterval(statusInterval);
+    document.getElementById('scanStatus').textContent = 'ALL CLEAR!';
+    document.getElementById('scanStatus').className = 'scan-status clear';
+    document.getElementById('scanResult').classList.add('show');
     triggerFlash();
     
     setTimeout(function() {
-      document.getElementById('scene-drug').classList.remove('active');
+      document.getElementById('scene-scan').classList.remove('active');
       startCountdown();
-    }, 2000);
-  }, 3200);
+    }, 2500);
+  }, 3500);
 }
 
 // ============ COUNTDOWN ============
@@ -320,14 +355,7 @@ function startCountdown() {
 
 // ============ PARTY ============
 function startParty() {
-  document.getElementById('photo').classList.add('show');
-  document.getElementById('bdayText').classList.add('show');
-  document.getElementById('tapHint').classList.add('show');
-  
-  // Confetti
-  setInterval(function() { spawnConfetti(6); }, 1500);
-  
-  // Show game button
+  setInterval(function() { spawnConfetti(6); }, 1200);
   setTimeout(function() {
     document.getElementById('gameBtn').classList.add('show');
   }, 5000);
@@ -341,10 +369,10 @@ function spawnConfetti(amt) {
       c.className = 'confetti';
       c.style.left = Math.random() * 100 + '%';
       c.style.background = colors[Math.floor(Math.random() * colors.length)];
-      c.style.animationDuration = (2 + Math.random()) + 's';
+      c.style.animationDuration = (2 + Math.random() * 2) + 's';
       document.getElementById('confettiZone').appendChild(c);
       setTimeout(function() { c.remove(); }, 4000);
-    }, i * 50);
+    }, i * 40);
   }
 }
 
@@ -359,12 +387,7 @@ function triggerFlash() {
 // ============ GAME ============
 document.getElementById('gameBtn').addEventListener('click', function() {
   document.getElementById('gameBtn').classList.remove('show');
-  document.getElementById('tapHint').classList.remove('show');
-  startGame();
-});
-document.getElementById('gameBtn').addEventListener('touchstart', function(e) {
-  e.preventDefault();
-  document.getElementById('gameBtn').classList.remove('show');
+  document.getElementById('tapHint').style.display = 'none';
   startGame();
 });
 
@@ -372,10 +395,7 @@ function startGame() {
   gameOn = true;
   score = 0;
   document.getElementById('score').textContent = '0';
-  document.getElementById('gameHud').classList.add('show');
-  document.getElementById('track').classList.add('show');
-  document.getElementById('runner').classList.add('show');
-  document.getElementById('skipBtn').classList.add('show');
+  document.getElementById('gameOverlay').classList.add('show');
   
   spawnItem();
   spawnObstacle();
@@ -386,22 +406,22 @@ function spawnItem() {
   if(!gameOn) return;
   let it = document.createElement('div');
   it.className = 'game-item';
-  it.textContent = ['💰', '💵', '🎂', '🎁', '🔥', '⭐', '💎', '🎉'][Math.floor(Math.random() * 8)];
-  it.style.left = (10 + Math.random() * 80) + '%';
+  it.textContent = GOOD_ITEMS[Math.floor(Math.random() * GOOD_ITEMS.length)];
+  it.style.left = (5 + Math.random() * 90) + '%';
   document.body.appendChild(it);
   gameItems.push(it);
-  setTimeout(spawnItem, 700);
+  setTimeout(spawnItem, 600);
 }
 
 function spawnObstacle() {
   if(!gameOn) return;
   let ob = document.createElement('div');
-  ob.className = 'game-obs';
-  ob.textContent = ['🚧', '🪨', '👮'][Math.floor(Math.random() * 3)];
-  ob.style.left = (10 + Math.random() * 80) + '%';
+  ob.className = 'game-item';
+  ob.textContent = BAD_ITEMS[Math.floor(Math.random() * BAD_ITEMS.length)];
+  ob.style.left = (5 + Math.random() * 90) + '%';
   document.body.appendChild(ob);
   gameObs.push(ob);
-  setTimeout(spawnObstacle, 1100);
+  setTimeout(spawnObstacle, 900);
 }
 
 function moveItems() {
@@ -411,10 +431,10 @@ function moveItems() {
   gameItems.forEach(function(it, idx) {
     let ir = it.getBoundingClientRect();
     if(isColliding(r, ir)) {
-      let pts = {'💰':100, '💵':80, '🎂':50, '🎁':50, '🔥':40, '⭐':60, '💎':70, '🎉':30};
-      score += pts[it.textContent] || 50;
+      let pts = {'💊':100, '💉':100, '💰':150, '💵':120, '🍄':80, '🧪':80, '🎂':60, '🎁':60, '💎':120, '🔥':90};
+      score += pts[it.textContent] || 60;
       document.getElementById('score').textContent = score;
-      showBurst('+' + (pts[it.textContent] || 50));
+      showBurst('+' + (pts[it.textContent] || 60));
       triggerFlash();
       it.remove();
       gameItems.splice(idx, 1);
@@ -431,18 +451,18 @@ function moveItems() {
   gameItems = gameItems.filter(it => it.getBoundingClientRect().right > 0);
   gameObs = gameObs.filter(ob => ob.getBoundingClientRect().right > 0);
   
-  setTimeout(moveItems, 25);
+  setTimeout(moveItems, 20);
 }
 
 function isColliding(a, b) {
-  return !(a.right < b.left + 20 || a.left > b.right - 20 || a.bottom < b.top + 20 || a.top > b.bottom - 20);
+  return !(a.right < b.left + 25 || a.left > b.right - 25 || a.bottom < b.top + 25 || a.top > b.bottom - 25);
 }
 
 function doJump() {
   if(!gameOn) return;
   let r = document.getElementById('runner');
   r.classList.add('jump');
-  if(navigator.vibrate) navigator.vibrate(20);
+  if(navigator.vibrate) navigator.vibrate(25);
   setTimeout(function() { r.classList.remove('jump'); }, 500);
 }
 
@@ -460,10 +480,38 @@ function endGame() {
   gameObs.forEach(t => t.remove());
   gameItems = [];
   gameObs = [];
+  
+  // Update high score
+  if(score > highScore) {
+    highScore = score;
+    localStorage.setItem('darleyHighScore', highScore);
+    addToLeaderboard(score);
+  }
+  
   document.getElementById('finalScore').textContent = score;
+  document.getElementById('highScore').textContent = highScore;
   document.getElementById('gameOver').classList.add('show');
+  updateLeaderboard();
   triggerFlash();
   if(navigator.vibrate) navigator.vibrate([100, 50, 100]);
+}
+
+function addToLeaderboard(score) {
+  let lb = JSON.parse(localStorage.getItem('darleyLeaderboard') || '[]');
+  lb.push({score: score, date: new Date().toLocaleDateString()});
+  lb.sort((a, b) => b.score - a.score);
+  lb = lb.slice(0, 5);
+  localStorage.setItem('darleyLeaderboard', JSON.stringify(lb));
+}
+
+function updateLeaderboard() {
+  let lb = JSON.parse(localStorage.getItem('darleyLeaderboard') || '[]');
+  let html = '';
+  lb.forEach(function(entry, i) {
+    html += '<li>#' + (i+1) + ' — ' + entry.score + ' pts</li>';
+  });
+  if(html === '') html = '<li>No scores yet!</li>';
+  document.getElementById('leaderboardList').innerHTML = html;
 }
 
 function restartGame() {
@@ -481,12 +529,9 @@ function skipGame() {
   gameObs.forEach(t => t.remove());
   gameItems = [];
   gameObs = [];
+  document.getElementById('gameOverlay').classList.remove('show');
   document.getElementById('gameOver').classList.remove('show');
-  document.getElementById('gameHud').classList.remove('show');
-  document.getElementById('track').classList.remove('show');
-  document.getElementById('runner').classList.remove('show');
-  document.getElementById('skipBtn').classList.remove('show');
-  document.getElementById('tapHint').classList.add('show');
+  document.getElementById('gameBtn').classList.add('show');
 }
 
 document.getElementById('playAgainBtn').addEventListener('click', restartGame);
@@ -505,7 +550,6 @@ document.addEventListener('touchstart', handleTap, {passive: false});
 
 function handlePartyTap(e) {
   if(gameOn) return;
-  if(!document.getElementById('photo').classList.contains('show')) return;
   e.preventDefault();
   triggerFlash();
   spawnConfetti(5);
