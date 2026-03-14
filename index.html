@@ -70,20 +70,83 @@ body {
 
 /* ============ SECURITY SCAN ============ */
 #scene-scan { background: linear-gradient(180deg, #0a0a15, #000); }
-.scan-container { width: 85%; max-width: 320px; position: relative; }
-.scan-title { font-size: clamp(1.2rem, 5vw, 2rem); color: #00d4ff; text-align: center; margin-bottom: 20px; letter-spacing: 0.1em; }
-.scan-box { background: linear-gradient(145deg, #1a1a28, #0d0d18); border: 3px solid #ff2d95; border-radius: 25px; padding: 30px; box-shadow: 0 0 50px rgba(255,45,149,0.4); position: relative; overflow: hidden; }
-.scan-beam { position: absolute; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, transparent, #00d4ff, white, #ff2d95, transparent); box-shadow: 0 0 20px #00d4ff; animation: beamScan 2s ease-in-out infinite; }
+.scan-container { 
+  width: 85%; 
+  max-width: 340px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.scan-title { 
+  font-size: clamp(1.3rem, 5vw, 2rem); 
+  color: #00d4ff; 
+  text-align: center; 
+  margin-bottom: 25px; 
+  letter-spacing: 0.1em;
+  width: 100%;
+}
+.scan-box { 
+  background: linear-gradient(145deg, #1a1a28, #0d0d18); 
+  border: 3px solid #ff2d95; 
+  border-radius: 25px; 
+  padding: 35px 25px; 
+  box-shadow: 0 0 50px rgba(255,45,149,0.4); 
+  position: relative; 
+  overflow: hidden; 
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.scan-beam { 
+  position: absolute; 
+  left: 0; 
+  right: 0; 
+  height: 4px; 
+  background: linear-gradient(90deg, transparent, #00d4ff, white, #ff2d95, transparent); 
+  box-shadow: 0 0 20px #00d4ff; 
+  animation: beamScan 2s ease-in-out infinite; 
+}
 @keyframes beamScan { 0%,100%{top:10%} 50%{top:80%} }
-.scan-items { position: absolute; inset: 0; overflow: hidden; }
-.scan-item { position: absolute; font-size: clamp(1.5rem, 6vw, 2.5rem); animation: itemFall 2s linear forwards; opacity: 0; }
-@keyframes itemFall { 0%{transform:translateY(-50px)rotate(0deg);opacity:1} 100%{transform:translateY(400px)rotate(360deg);opacity:0} }
-.scan-status { font-size: clamp(1.5rem, 6vw, 2.5rem); font-weight: bold; color: #ffd600; text-align: center; margin-top: 20px; animation: pulse 0.5s infinite; }
+.scan-items { 
+  position: absolute; 
+  inset: 0; 
+  overflow: hidden; 
+  pointer-events: none;
+}
+.scan-item { 
+  position: absolute; 
+  font-size: clamp(1.5rem, 6vw, 2.2rem); 
+  animation: itemFall 2s linear forwards; 
+  opacity: 0; 
+}
+@keyframes itemFall { 0%{transform:translateY(0)translateX(0)rotate(0deg);opacity:1} 100%{transform:translateY(180px)translateX(30px)rotate(360deg);opacity:0} }
+.scan-status { 
+  font-size: clamp(1.8rem, 6vw, 2.5rem); 
+  font-weight: bold; 
+  color: #ffd600; 
+  text-align: center; 
+  margin-top: 20px;
+  animation: pulse 0.5s infinite;
+  width: 100%;
+}
 .scan-status.clear { color: #00ff88; }
-.scan-result { margin-top: 25px; text-align: center; opacity: 0; transform: scale(0.5); transition: 0.5s; }
+.scan-result { 
+  margin-top: 25px; 
+  text-align: center; 
+  opacity: 0; 
+  transform: scale(0.5); 
+  transition: 0.5s;
+  width: 100%;
+}
 .scan-result.show { opacity: 1; transform: scale(1); }
-.scan-result-emoji { font-size: clamp(4rem, 15vw, 6rem); }
-.scan-result-txt { font-size: clamp(1.2rem, 5vw, 1.8rem); color: #00ff88; font-weight: bold; margin-top: 10px; }
+.scan-result-emoji { font-size: clamp(4rem, 15vw, 6rem); display: block; margin-bottom: 10px;}
+.scan-result-txt { 
+  font-size: clamp(1.3rem, 5vw, 1.8rem); 
+  color: #00ff88; 
+  font-weight: bold; 
+  display: block;
+}
 
 /* ============ COUNTDOWN ============ */
 #countdown { background: rgba(0,0,0,0.95); }
@@ -304,25 +367,26 @@ function startSecurityScan() {
     let item = document.createElement('div');
     item.className = 'scan-item';
     item.textContent = SCAN_ITEMS[Math.floor(Math.random() * SCAN_ITEMS.length)];
-    item.style.left = (10 + Math.random() * 80) + '%';
+    item.style.left = (15 + Math.random() * 70) + '%';
+    item.style.top = '15%';
     item.style.animationDuration = (1.5 + Math.random()) + 's';
     document.getElementById('scanItems').appendChild(item);
     setTimeout(function() { item.remove(); }, 2500);
-  }, 200);
+  }, 250);
   
-  const statuses = ['SCANNING...', 'ANALYZING...', 'CHECKING...', 'DETECTING...', 'ALMOST DONE...'];
+  const statuses = ['SCANNING...', 'ANALYZING...', 'CHECKING...', 'DETECTING...'];
   let idx = 0;
   let statusInterval = setInterval(function() {
     if(idx < statuses.length) {
       document.getElementById('scanStatus').textContent = statuses[idx];
       idx++;
     }
-  }, 600);
+  }, 700);
   
   setTimeout(function() {
     clearInterval(scanInterval);
     clearInterval(statusInterval);
-    document.getElementById('scanStatus').textContent = 'ALL CLEAR!';
+    document.getElementById('scanStatus').textContent = '✅ ALL CLEAR!';
     document.getElementById('scanStatus').className = 'scan-status clear';
     document.getElementById('scanResult').classList.add('show');
     triggerFlash();
@@ -330,7 +394,7 @@ function startSecurityScan() {
     setTimeout(function() {
       document.getElementById('scene-scan').classList.remove('active');
       startCountdown();
-    }, 2500);
+    }, 3000);
   }, 3500);
 }
 
