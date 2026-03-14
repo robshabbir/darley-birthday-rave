@@ -250,8 +250,8 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('highScore').textContent = highScore; updateLeaderboard();
 });
 
-document.getElementById('enterBtn').addEventListener('click', startFlow);
-document.getElementById('start').addEventListener('click', startFlow);
+document.getElementById('enterBtn').addEventListener('click', function(){alert('clicked!');startFlow();});
+document.getElementById('start').addEventListener('click', function(){alert('clicked!');startFlow();});
 
 function startFlow(){document.getElementById('start').classList.add('hidden');document.getElementById('scene-walk').classList.add('active');setTimeout(function(){document.getElementById('scene-walk').classList.remove('active');document.getElementById('scene-id').classList.add('active');setTimeout(function(){document.getElementById('idOk').classList.add('show');setTimeout(function(){document.getElementById('scene-id').classList.remove('active');startSecurityScan();},2000);},1800);},2800);}
 
