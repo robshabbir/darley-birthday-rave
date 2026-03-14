@@ -621,7 +621,7 @@ body {
   <div class="s-cake">🎂</div>
   <div class="s-title">CLUB 25</div>
   <div class="s-sub">DARLEY'S BIRTHDAY</div>
-  <button class="btn-tap" id="enterBtn">👆 TAP TO ENTER 👆</button>
+  <button class="btn-tap" id="enterBtn" onclick="enterClicked(event)">👆 TAP TO ENTER 👆</button>
 </div>
 
 <!-- WALKING SCENE -->
@@ -719,8 +719,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ============ ENTER BUTTON ============
-function handleEnter(e) {
-  if(e) { e.preventDefault(); e.stopPropagation(); }
+function enterClicked(e) {
+  if(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  doEnter();
+}
+
+function doEnter() {
   document.getElementById('start-screen').classList.add('hidden');
   
   // Play music
@@ -746,8 +753,7 @@ function handleEnter(e) {
   }, 2500);
 }
 
-document.getElementById('enterBtn').addEventListener('click', handleEnter);
-document.getElementById('enterBtn').addEventListener('touchstart', handleEnter, {passive: false});
+// Enter button uses onclick in HTML for maximum compatibility
 
 // ============ DRUG SCAN ============
 function startDrugScan() {
