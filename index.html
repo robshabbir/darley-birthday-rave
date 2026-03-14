@@ -203,7 +203,15 @@ document.addEventListener('DOMContentLoaded',function(){
 
 function startFlow(){
   document.getElementById('start').style.display='none';
-  try{document.getElementById('bgMusic').play();}catch(e){}
+  var music = document.getElementById('bgMusic');
+  music.volume = 0.8;
+  music.play().then(function(){
+    console.log('Music playing!');
+  }).catch(function(e){
+    console.log('Music autoplay blocked:',e);
+    // Try again on next tap
+    document.addEventListener('click',function(){music.play();},{once:true});
+  });
   document.getElementById('scene-walk').classList.add('active');
   setTimeout(function(){
     document.getElementById('scene-walk').classList.remove('active');
