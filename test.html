@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Darley's 25th Birthday</title>
+<style>
+* { margin: 0; padding: 0; }
+body { 
+  background: linear-gradient(135deg, #1a0a2e, #0d0d1a); 
+  min-height: 100vh; 
+  display: flex; 
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+h1 { font-size: 3rem; margin-bottom: 10px; }
+p { font-size: 1.5rem; margin-bottom: 30px; color: #00d4ff; }
+#start { display: block; }
+#party { display: none; }
+#enterBtn {
+  padding: 20px 40px;
+  font-size: 1.5rem;
+  background: linear-gradient(135deg, #ff2d95, #ff00ff);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 10px 40px rgba(255,45,149,0.5);
+}
+#enterBtn:active { transform: scale(0.95); }
+</style>
+</head>
+<body>
+
+<div id="start">
+  <h1>🎂 CLUB 25 🎂</h1>
+  <p>DARLEY'S BIRTHDAY</p>
+  <button id="enterBtn">👆 TAP TO ENTER 👆</button>
+</div>
+
+<div id="party">
+  <h1>🎉 HAPPY 25TH BIRTHDAY DARLEY! 🎉</h1>
+  <p>You're in! Let's party! 🎊</p>
+</div>
+
+<script>
+// Simple test
+console.log('Script loaded!');
+
+document.getElementById('enterBtn').onclick = function() {
+  console.log('Button clicked!');
+  document.getElementById('start').style.display = 'none';
+  document.getElementById('party').style.display = 'block';
+};
+
+// Fallback
+document.getElementById('enterBtn').ontouchstart = function() {
+  console.log('Touch detected!');
+  document.getElementById('start').style.display = 'none';
+  document.getElementById('party').style.display = 'block';
+};
+</script>
+
+</body>
+</html>
