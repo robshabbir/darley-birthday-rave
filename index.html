@@ -1,257 +1,525 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#000000">
-    <title>🎂 DARLEY'S 25th BIRTHDAY 🎂</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root { --pink: #ff00ff; --cyan: #00ffff; --yellow: #ffff00; --purple: #8b00ff; --orange: #ff6600; --green: #00ff66; }
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html, body { height: 100%; overflow: hidden; touch-action: manipulation; }
-        body { min-height: 100vh; background: #000; font-family: 'Orbitron', sans-serif; color: white; position: fixed; width: 100%; height: 100%; user-select: none; }
-        
-        #scene-walk, #scene-id, #scene-k9, #scene-rave { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s; }
-        #scene-walk { background: linear-gradient(180deg, #0d0d1a, #1a0a2e); z-index: 100; }
-        #scene-walk.hidden { opacity: 0; pointer-events: none; }
-        #scene-id, #scene-k9 { background: #050508; opacity: 0; pointer-events: none; }
-        #scene-id.active, #scene-k9.active { opacity: 1; pointer-events: all; }
-        #scene-rave { background: #000; opacity: 0; z-index: 70; }
-        #scene-rave.active { opacity: 1; }
-        
-        .neon { font-size: clamp(2.5rem, 14vw, 5rem); font-weight: 900; color: #fff; text-shadow: 0 0 20px var(--pink), 0 0 60px var(--cyan); animation: neonP 1.5s ease-in-out infinite alternate; }
-        @keyframes neonP { from { text-shadow: 0 0 20px var(--pink), 0 0 40px var(--pink); } to { text-shadow: 0 0 30px var(--cyan), 0 0 80px var(--cyan), 0 0 120px var(--pink); } }
-        .walk-icon { font-size: 4rem; margin: 1rem; animation: bounce 0.4s ease-in-out infinite; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
-        .walk-text { font-size: clamp(0.9rem, 4vw, 1.2rem); color: var(--cyan); text-transform: uppercase; letter-spacing: 0.3em; animation: pulse 1s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-        
-        .id-box { padding: 2rem; background: linear-gradient(180deg, #0d0d1a, #080810); border: 2px solid var(--cyan); border-radius: 20px; width: 85%; max-width: 300px; }
-        .cam { width: 100px; height: 100px; border-radius: 50%; background: #000; border: 4px solid #222; margin: 0 auto; position: relative; overflow: hidden; }
-        .cam::after { content: ''; position: absolute; top: 25%; left: 25%; width: 15%; height: 15%; border-radius: 50%; background: #0cf; box-shadow: 0 0 15px #0cf; animation: glint 1s infinite; }
-        @keyframes glint { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-        .beam { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--cyan), #fff, var(--pink), var(--cyan), transparent); animation: scan 1s linear infinite; }
-        @keyframes scan { 0% { top: 0; } 100% { top: calc(100% - 3px); } }
-        .id-status { margin-top: 1rem; text-align: center; color: var(--yellow); animation: blink 0.3s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-        .id-ok { margin-top: 1rem; color: var(--green); text-shadow: 0 0 20px var(--green); opacity: 0; }
-        .id-ok.show { opacity: 1; animation: showOk 0.5s forwards; }
-        @keyframes showOk { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
-        
-        .k9-dog { font-size: 5rem; animation: sniff 0.2s infinite; }
-        @keyframes sniff { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-        .k9-status { margin-top: 2rem; font-size: 1.1rem; color: var(--cyan); text-transform: uppercase; letter-spacing: 0.2em; }
-        .k9-result { margin-top: 1rem; font-size: 1.5rem; color: var(--green); text-shadow: 0 0 25px var(--green); opacity: 0; }
-        .k9-result.show { opacity: 1; animation: showOk 0.5s forwards; }
-        
-        .rave-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(139,0,255,0.5) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(255,0,255,0.4) 0%, transparent 40%), radial-gradient(ellipse at 80% 80%, rgba(0,255,255,0.4) 0%, transparent 40%); animation: bgP 0.5s infinite; }
-        @keyframes bgP { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.4); } }
-        .tunnel { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 200vmax; height: 200vmax; border-radius: 50%; background: conic-gradient(from 0deg, var(--pink), var(--cyan), var(--yellow), var(--purple), var(--pink)); animation: spin 6s linear infinite; opacity: 0; filter: blur(80px); }
-        .tunnel.on { opacity: 0.5; }
-        @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
-        
-        .lights { position: absolute; top: 0; left: 0; right: 0; height: 30%; display: flex; justify-content: space-evenly; align-items: flex-end; overflow: hidden; }
-        .light { width: 6px; background: linear-gradient(to top, var(--cyan), transparent); animation: sweep 2s ease-in-out infinite; transform-origin: bottom; }
-        @keyframes sweep { 0%, 100% { transform: rotate(-25deg); } 50% { transform: rotate(25deg); } }
-        
-        .stage { position: absolute; top: 8%; left: 50%; transform: translateX(-50%); display: flex; gap: 0.3rem; }
-        .deck { width: 35px; height: 50px; background: linear-gradient(180deg, #1a1a1a, #0a0a0a); border-radius: 4px; position: relative; overflow: hidden; }
-        .deck-disc { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 18px; height: 18px; border-radius: 50%; background: conic-gradient(#111, #333, #111); animation: spin 0.4s linear infinite; }
-        
-        .speakers { position: absolute; bottom: 10%; left: 0; right: 0; display: flex; justify-content: space-between; padding: 0 5%; }
-        .sp-cluster { display: flex; flex-direction: column; gap: 6px; }
-        .sp-box { width: 40px; height: 40px; background: #0a0a0a; border: 1px solid #222; border-radius: 4px; position: relative; }
-        .sp-cone { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle, #1a1a1a, #000); animation: bass 0.1s infinite; }
-        @keyframes bass { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.3); } }
-        
-        .smoke { position: absolute; bottom: 0; left: 0; right: 0; height: 50%; }
-        .smoke-j { position: absolute; bottom: 0; width: 80px; height: 150px; background: radial-gradient(ellipse at bottom, rgba(139,0,255,0.5), transparent); animation: smokeJ 2.5s infinite; }
-        .smoke-j:nth-child(1) { left: 10%; }
-        .smoke-j:nth-child(2) { left: 30%; animation-delay: 0.5s; }
-        .smoke-j:nth-child(3) { left: 50%; animation-delay: 1s; }
-        .smoke-j:nth-child(4) { left: 70%; animation-delay: 1.5s; }
-        @keyframes smokeJ { 0%, 100% { transform: translateY(0) scaleY(1); opacity: 0.4; } 50% { transform: translateY(-40px) scaleY(1.4); opacity: 0.8; } }
-        
-        .floor { position: absolute; bottom: 0; left: 0; right: 0; height: 38%; background: repeating-linear-gradient(90deg, transparent 0px, transparent 48px, rgba(0,255,255,0.5) 48px, rgba(0,255,255,0.5) 50px, transparent 50px, transparent 98px, rgba(255,0,255,0.5) 98px, rgba(255,0,255,0.5) 100px); transform: perspective(250px) rotateX(80deg); animation: floorB 0.2s infinite; }
-        @keyframes floorB { 0%, 100% { filter: brightness(1.3); } 50% { filter: brightness(2); } }
-        
-        .content { position: relative; z-index: 10; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 1rem; }
-        
-        .countdown { font-size: clamp(5rem, 40vw, 14rem); font-weight: 900; background: linear-gradient(180deg, #fff, var(--yellow), var(--orange)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 40px var(--yellow)); animation: pop 0.3s ease-out; }
-        @keyframes pop { 0% { transform: scale(2.5); opacity: 0; filter: blur(40px); } 60% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; filter: blur(0); } }
-        .count-label { font-size: clamp(1.2rem, 5vw, 2rem); color: #fff; text-transform: uppercase; letter-spacing: 0.3em; margin-bottom: 0.5rem; animation: glowL 0.5s infinite alternate; text-shadow: 0 0 20px var(--cyan); }
-        @keyframes glowL { from { text-shadow: 0 0 20px var(--cyan); } to { text-shadow: 0 0 40px var(--pink), 0 0 60px var(--cyan); } }
-        
-        .reveal { display: none; flex-direction: column; align-items: center; animation: rev 0.5s ease-out; }
-        .reveal.on { display: flex; }
-        @keyframes rev { 0% { transform: scale(0); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
-        .bday-title { font-size: clamp(2rem, 11vw, 5rem); font-weight: 900; background: linear-gradient(90deg, var(--cyan), var(--pink), var(--yellow), var(--cyan)); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: flow 1s linear infinite; filter: drop-shadow(0 0 25px var(--pink)); }
-        @keyframes flow { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
-        .bday-name { font-size: clamp(1.8rem, 9vw, 4rem); font-weight: 900; color: #fff; text-shadow: 0 0 30px var(--pink), 0 0 60px var(--cyan); margin: 0.3rem 0; animation: nameP 0.3s infinite alternate; }
-        @keyframes nameP { from { transform: scale(1); } to { transform: scale(1.05); } }
-        .photo { width: clamp(180px, 55vw, 350px); height: clamp(180px, 55vw, 350px); border-radius: 50%; object-fit: cover; border: 6px solid #fff; box-shadow: 0 0 60px var(--cyan), 0 0 120px var(--pink), 0 0 180px var(--purple); animation: dance 0.1s infinite; margin: 0.8rem 0; }
-        @keyframes dance { 0% { transform: translateY(0) rotate(0deg) scale(1); } 25% { transform: translateY(-35px) rotate(-12deg) scale(1.15); } 50% { transform: translateY(0) rotate(0deg) scale(1); } 75% { transform: translateY(-30px) rotate(12deg) scale(1.15); } }
-        
-        .hint { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); font-size: 0.85rem; color: #fff; text-transform: uppercase; letter-spacing: 0.2em; animation: hintB 1.5s infinite; z-index: 100; padding: 0.8rem 1.5rem; background: linear-gradient(135deg, rgba(255,0,255,0.3), rgba(0,255,255,0.3)); border: 1px solid rgba(255,255,255,0.4); border-radius: 30px; }
-        @keyframes hintB { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
-        
-        .parts { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-        .part { position: absolute; border-radius: 50%; animation: fall linear forwards; }
-        @keyframes fall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-        
-        .fw { position: absolute; width: 4px; height: 4px; border-radius: 50%; animation: fw 1s ease-out forwards; }
-        @keyframes fw { 0% { transform: translate(0,0); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)); opacity: 0; } }
-        
-        .rip { position: absolute; border: 2px solid; border-radius: 50%; animation: rp 0.8s ease-out forwards; }
-        @keyframes rp { 0% { width: 0; height: 0; opacity: 1; } 100% { width: 300px; height: 300px; opacity: 0; } }
-        
-        .em { position: absolute; font-size: 2rem; animation: em 1.2s ease-out forwards; }
-        @keyframes em { 0% { transform: translate(0,0) scale(0); } 30% { transform: translate(var(--ex), var(--ey)) scale(1.3); } 100% { transform: translate(var(--ex), calc(var(--ey) + 80px)) scale(0); } }
-        
-        .str { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 200; }
-        .str.flash { animation: stb 0.03s ease-in-out 15; }
-        @keyframes stb { 0%, 100% { opacity: 0; } 50% { opacity: 0.95; } }
-        
-        .rainbow { position: absolute; bottom: 0; left: 0; right: 0; height: 10px; background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet); animation: rb 1s linear infinite; opacity: 0; }
-        .rainbow.on { opacity: 0.9; }
-        @keyframes rb { 0% { background-position: 0 0; } 100% { background-position: 70px 0; } }
-        
-        #bgMusic { display: none; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>🎂 DARLEY'S 25th BIRTHDAY 🎂</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Permanent+Marker&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; touch-action: manipulation; }
+body { min-height: 100vh; background: #000; font-family: 'Orbitron', sans-serif; color: white; position: fixed; width: 100%; user-select: none; -webkit-user-select: none; }
+:root { --p: #ff00ff; --c: #00ffff; --y: #ffff00; --pu: #8b00ff; --g: #00ff66; --o: #ff6600; }
+
+#start-screen { position: fixed; inset: 0; background: radial-gradient(ellipse at center, #1a0a2e 0%, #0d0d1a 50%, #000 100%); z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#start-screen.hidden{display:none}
+.s-cake{font-size:clamp(4rem,20vw,8rem);animation:cb .6s ease-in-out infinite;filter:drop-shadow(0 0 40px var(--p));text-shadow:0 0 60px var(--p)}
+@keyframes cb{0%,100%{transform:translateY(0)rotate(-3deg)}50%{transform:translateY(-30px)rotate(3deg)}}
+.s-title{font-family:'Permanent Marker', cursive;font-size:clamp(3rem,18vw,7rem);font-weight:400;color:#fff;text-shadow:0 0 30px var(--p),0 0 60px var(--c),0 0 90px var(--p);animation:tg 2s ease-in-out infinite alternate;margin:.5rem 0}
+@keyframes tg{from{text-shadow:0 0 30px var(--p),0 0 60px var(--c)}to{text-shadow:0 0 50px var(--c),0 0 80px var(--p),0 0 120px var(--c)}}
+.s-sub{font-size:clamp(1rem,4vw,1.8rem);color:var(--c);text-transform:uppercase;letter-spacing:.5em;margin-bottom:2rem;text-shadow:0 0 20px var(--c)}
+.btn-tap{padding:1.5rem 4rem;font-size:clamp(1.2rem,5vw,1.8rem);font-weight:700;background:linear-gradient(135deg,var(--p),var(--pu));border:none;border-radius:60px;color:#fff;cursor:pointer;animation:bp 1s ease-in-out infinite;box-shadow:0 0 50px var(--p),0 0 100px var(--pu),inset 0 0 20px rgba(255,255,255,.2)}
+@keyframes bp{0%,100%{transform:scale(1);box-shadow:0 0 50px var(--p),0 0 100px var(--pu)}50%{transform:scale(1.05);box-shadow:0 0 70px var(--p),0 0 140px var(--pu)}}
+
+.scene{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:2000}
+.scene.active{display:flex}
+
+#scene-walk{background:linear-gradient(180deg,#050510,#0a0a1a)}
+.walk-anim{font-size:clamp(4rem,15vw,7rem);animation:wa .4s ease-in-out infinite alternate}
+@keyframes wa{from{transform:translateX(-20px)scale(.95)}to{transform:translateX(20px)scale(1.05)}}
+.walk-txt{font-size:clamp(1rem,4vw,1.5rem);color:var(--c);text-transform:uppercase;letter-spacing:.4em;margin-top:1.5rem;animation:fade 1s infinite}
+
+#scene-id{background:#020205}
+.id-card{background:linear-gradient(145deg,#0d0d15,#080810);border:3px solid var(--c);border-radius:20px;padding:2rem;width:85%;max-width:280px;box-shadow:0 0 40px rgba(0,255,255,.3),inset 0 0 30px rgba(0,255,255,.05)}
+.id-cam{width:100px;height:100px;border-radius:50%;background:#000;border:4px solid #222;margin:0 auto;position:relative;overflow:hidden;box-shadow:0 0 25px var(--c)}
+.id-cam::after{content:'';position:absolute;top:30%;left:30%;width:15%;height:15%;border-radius:50%;background:#0ff;box-shadow:0 0 15px #0ff}
+.id-beam{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--c),#fff,var(--p),transparent);animation:sbeam .5s linear infinite}
+@keyframes sbeam{0%{top:0}100%{top:calc(100% - 3px)}}
+.id-scan{color:var(--y);animation:blink .2s infinite;font-size:1rem;margin-top:1rem}
+.id-name{font-size:2rem;font-weight:900;color:#fff;text-shadow:0 0 20px var(--c);margin-top:1rem}
+.id-dob{color:var(--c);font-size:1rem}
+.id-age{color:var(--g);font-size:1.3rem;font-weight:700;margin-top:.3rem;text-shadow:0 0 15px var(--g)}
+.id-ok{color:var(--g);font-size:1.2rem;font-weight:700;margin-top:1rem;opacity:0;text-shadow:0 0 20px var(--g)}
+.id-ok.show{opacity:1;animation:pop .5s forwards}
+
+#scene-drugscan{background:linear-gradient(180deg,#0a0a15,#000);overflow:hidden}
+.drugscan-title{font-size:clamp(1.2rem,5vw,2rem);color:var(--c);text-transform:uppercase;letter-spacing:.3em;margin-bottom:1.5rem;text-shadow:0 0 30px var(--c);animation:pulse 1s infinite}
+
+.drug-card{background:linear-gradient(145deg,#1a1a25,#0d0d18);border:3px solid var(--p);border-radius:25px;padding:clamp(1.2rem,4vw,2rem);width:85%;max-width:320px;box-shadow:0 0 50px rgba(255,0,255,.4),inset 0 0 40px rgba(255,0,255,.05);position:relative;overflow:hidden}
+.drug-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(255,0,255,.1),transparent,rgba(0,255,255,.1),transparent);animation:cardSpin 4s linear infinite}
+@keyframes cardSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.drug-card-header{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;position:relative;z-index:1}
+.drug-card-icon{font-size:clamp(2.5rem,10vw,3.5rem);animation:bounce 0.6s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.drug-card-title{font-size:clamp(1rem,4vw,1.4rem);color:#fff;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+.drug-scanner-line{height:4px;background:linear-gradient(90deg,transparent,var(--c),#fff,var(--p),transparent);position:absolute;left:0;right:0;top:30%;animation:scanMove 1.5s ease-in-out infinite;box-shadow:0 0 20px var(--c)}
+@keyframes scanMove{0%,100%{top:15%}50%{top:75%}}
+.drug-items-zone{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none}
+.drug-item{position:absolute;font-size:clamp(1.5rem,6vw,2.2rem);animation:fallDrug linear forwards;opacity:0}
+@keyframes fallDrug{0%{transform:translateY(-50px)rotate(0deg);opacity:1}100%{transform:translateY(120vh)rotate(360deg);opacity:0}}
+.drug-status{text-align:center;margin-top:1rem;position:relative;z-index:1}
+.drug-status-text{font-size:clamp(1.2rem,5vw,1.8rem);font-weight:700;color:#fff;text-shadow:0 0 20px var(--g)}
+.drug-status-sub{font-size:.9rem;color:var(--c);margin-top:.3rem;opacity:.8}
+.drug-result{position:absolute;bottom:clamp(1rem,4vw,1.5rem);left:0;right:0;text-align:center;opacity:0;transform:scale(0.5)}
+.drug-result.show{opacity:1;animation:popIn .6s forwards}
+@keyframes popIn{0%{transform:scale(0);opacity:0}60%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+.drug-result-emoji{font-size:clamp(3rem,12vw,4rem)}
+.drug-result-text{font-size:clamp(1rem,4vw,1.3rem);color:var(--g);font-weight:700;text-shadow:0 0 20px var(--g)}
+
+.rave-world{position:fixed;inset:0;background:#000;overflow:hidden;z-index:100;display:none;perspective:800px}
+.rave-world.on{display:block}
+.void{position:absolute;inset:-50%;background:radial-gradient(ellipse at center,#12002a 0%,#0a0015 30%,#000 100%);transform:translateZ(-400px);animation:voidDrift 20s ease-in-out infinite}
+@keyframes voidDrift{0%,100%{transform:translateZ(-400px) rotateX(0deg) scale(1)}25%{transform:translateZ(-400px) rotateX(5deg) scale(1.1)}50%{transform:translateZ(-400px) rotateX(-3deg) scale(1)}75%{transform:translateZ(-400px) rotateX(3deg) scale(1.1)}}
+.starzone{position:absolute;inset:0;transform:translateZ(-350px)}
+.star{position:absolute;background:#fff;border-radius:50%;animation:starTwinkle 2s infinite}
+@keyframes starTwinkle{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.5)}}
+.tripEye{position:absolute;top:15%;left:50%;transform:translateX(-50%);font-size:clamp(4rem,15vw,7rem);animation:eyeWobble 3s ease-in-out infinite;filter:drop-shadow(0 0 30px var(--p));z-index:50}
+@keyframes eyeWobble{0%,100%{transform:translateX(-50%)scale(1)rotate(0deg)}25%{transform:translateX(-50%)scale(1.1)rotate(-10deg)}50%{transform:translateX(-50%)scale(0.95)rotate(5deg)}75%{transform:translateX(-50%)scale(1.15)rotate(-5deg)}}
+.beamzone{position:absolute;top:-30%;left:-10%;right:-10%;height:160%}
+.lbeam{position:absolute;bottom:0;width:100px;height:180vh;transform-origin:bottom;filter:blur(18px);opacity:.65;animation:lbeamMove 2.8s ease-in-out infinite}
+@keyframes lbeamMove{0%,100%{transform:rotate(-25deg)scaleY(1);opacity:.5}50%{transform:rotate(25deg)scaleY(1.4);opacity:.85}}
+.discozone{position:absolute;top:0;left:0;right:0;height:40%;display:flex;justify-content:space-evenly;align-items:flex-end;transform:translateZ(40px)}
+.disco{width:18px;height:140px;border-radius:10px;animation:discoDance .28s ease-in-out infinite;transform-origin:bottom}
+@keyframes discoDance{0%,100%{transform:rotate(-40deg)scaleY(1)}50%{transform:rotate(40deg)scaleY(1.25)}}
+.smokezone{position:absolute;bottom:0;left:-15%;right:-15%;height:55%}
+.cloudsmoke{position:absolute;bottom:-150px;width:350px;height:450px;border-radius:50%;animation:smokeRise 5.5s ease-out infinite;filter:blur(55px)}
+@keyframes smokeRise{0%{transform:translateY(0)scale(1);opacity:0}15%{opacity:.7}100%{transform:translateY(-450px)scale(2.5);opacity:0}}
+.lava-zone{position:absolute;top:20%;left:0;right:0;height:40%;overflow:hidden}
+.lava-blob{position:absolute;border-radius:50%;filter:blur(30px);animation:blobFloat 8s ease-in-out infinite;opacity:.6}
+@keyframes blobFloat{0%,100%{transform:translate(0,0)scale(1)}25%{transform:translate(30px,-40px)scale(1.3)}50%{transform:translate(-20px,20px)scale(.9)}75%{transform:translate(40px,10px)scale(1.2)}}
+.dfloor{position:absolute;bottom:0;left:-80%;right:-80%;height:50%;transform:rotateX(82deg);transform-origin:bottom;background:repeating-conic-gradient(from 0deg,#050508 0deg 8deg,#0a0a12 8deg 16deg);animation:floorBeat .35s infinite}
+@keyframes floorBeat{0%,100%{filter:brightness(1.1)}50%{filter:brightness(1.8)}}
+.confettiZone{position:absolute;inset:0;pointer-events:none}
+.cdrop{position:absolute;width:10px;height:10px;animation:confettiDrop linear forwards}
+@keyframes confettiDrop{0%{transform:translateY(-100vh)rotate(0deg);opacity:1}100%{transform:translateY(100vh)rotate(900deg);opacity:0}}
+.molecule-zone{position:absolute;inset:0;pointer-events:none}
+.molecule{position:absolute;font-size:clamp(1.2rem,5vw,2rem);animation:moleculeFloat linear infinite;opacity:.7}
+@keyframes moleculeFloat{0%{transform:translateX(-10vw)translateY(0)rotate(0deg)}50%{transform:translateX(10vw)translateY(-30px)rotate(180deg)}100%{transform:translateX(-10vw)translateY(0)rotate(360deg)}}
+
+.psycho{position:fixed;inset:-50%;background:conic-gradient(from 0deg,transparent,var(--p),var(--c),var(--y),var(--pu),transparent);animation:spinPsycho .8s linear infinite;opacity:0;pointer-events:none;z-index:150;mix-blend-mode:screen}
+.psycho.on{opacity:.55;animation-duration:.25s}
+@keyframes spinPsycho{to{transform:rotate(360deg)}}
+.warpzone{position:fixed;inset:0;pointer-events:none;z-index:140}
+.warpRing{position:absolute;top:50%;left:50%;width:8px;height:8px;border-radius:50%;border:6px solid var(--c);animation:warpOut 1.2s linear infinite;opacity:0}
+.warpRing.on{opacity:1}
+@keyframes warpOut{0%{transform:translate(-50%,-50%)scale(1);border-color:var(--c)}100%{transform:translate(-50%,-50%)scale(120);opacity:0;border-color:var(--p)}}
+.strobeZone{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:160;animation:strobeFlash .04s infinite}
+.strobeZone.on{opacity:.45}
+.tunnelZone{position:fixed;inset:0;pointer-events:none;z-index:145;display:none}
+.tunnelZone.on{display:block}
+.tunnelRing{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:3px solid var(--c);border-radius:50%;animation:tunnelSpin 1s linear infinite;opacity:0}
+
+.photoFrame{position:fixed;bottom:12%;left:50%;transform:translateX(-50%) translateZ(80px);width:clamp(140px,45vw,260px);height:clamp(140px,45vw,260px);border-radius:50%;object-fit:cover;border:7px solid rgba(255,255,255,.95);box-shadow:0 0 50px var(--c),0 0 100px var(--p),0 0 150px var(--pu);z-index:170;display:none;animation:photoPulse 1.8s ease-in-out infinite}
+.photoFrame.on{display:block}
+@keyframes photoPulse{0%,100%{transform:translateX(-50%)translateZ(80px)scale(1)rotate(0deg);box-shadow:0 0 50px var(--c),0 0 100px var(--p)}50%{transform:translateX(-50%)translateZ(80px)scale(1.07)rotate(4deg);box-shadow:0 0 70px var(--c),0 0 140px var(--p),0 0 200px var(--pu)}}
+.bdayText{position:fixed;bottom:38%;left:50%;transform:translateX(-50%);font-family:'Permanent Marker',cursive;font-size:clamp(1.5rem,7vw,3rem);color:#fff;text-shadow:0 0 20px var(--p),0 0 40px var(--c);z-index:175;display:none;animation:bounceText 1s infinite}
+.bdayText.on{display:block}
+@keyframes bounceText{0%,100%{transform:translateX(-50%)translateY(0)}50%{transform:translateX(-50%)translateY(-10px)}}
+.tapHint{position:fixed;bottom:5%;left:50%;transform:translateX(-50%);font-size:1rem;color:#fff;text-transform:uppercase;letter-spacing:.35em;animation:hintPulse 1s infinite;z-index:190;display:none;text-shadow:0 0 15px var(--p)}
+.tapHint.on{display:block}
+@keyframes hintPulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+#countScreen{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:400}
+#countScreen.on{display:flex}
+.countText{font-size:clamp(10rem,55vw,28rem);font-weight:900;color:#fff;text-shadow:0 0 60px var(--p),0 0 120px var(--c),0 0 180px var(--pu);animation:countBang .5s}
+@keyframes countBang{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+.countLabel{position:absolute;bottom:15%;font-size:clamp(1.2rem,5vw,2rem);color:var(--c);text-transform:uppercase;letter-spacing:.5em;text-shadow:0 0 20px var(--c);animation:blink .5s infinite}
+
+.gameHud{position:fixed;top:12px;right:12px;z-index:280;display:none}
+.gameHud.on{display:block}
+.scoreBox{font-size:1.4rem;font-weight:700;color:#ffd700;text-shadow:0 0 20px #ffd700,0 0 40px #ff8c00}
+.track-zone{position:fixed;bottom:0;left:0;right:0;height:35%;background:linear-gradient(180deg,transparent,#000);display:none;z-index:180}
+.track-zone.on{display:block}
+.lane-marker{position:absolute;bottom:0;width:4px;height:100%;background:linear-gradient(180deg,var(--c),transparent);opacity:.3}
+.lane-marker.left{left:25%}
+.lane-marker.right{left:75%}
+.runnerGuy{position:fixed;bottom:15%;left:50%;transform:translateX(-50%);font-size:clamp(3rem,12vw,4.5rem);z-index:200;display:none;filter:drop-shadow(0 0 20px var(--c));transition:bottom .1s ease-out}
+.runnerGuy.jumping{animation:jumpAnim .5s ease-out}
+@keyframes jumpAnim{0%{bottom:15%}40%{bottom:45%}100%{bottom:15%}}
+.gameItem{position:fixed;font-size:clamp(2rem,8vw,3.5rem);z-index:190;bottom:15%}
+.gameItem.onTrack{animation:itemMove linear forwards}
+@keyframes itemMove{0%{right:-100px}100%{right:120vw}}
+.gameObstacle{position:fixed;font-size:clamp(2.5rem,10vw,4rem);z-index:195;bottom:15%;animation:obstacleMove linear forwards}
+@keyframes obstacleMove{0%{right:-100px}100%{right:120vw}}
+.gameSkip{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);padding:14px 30px;font-size:1rem;background:linear-gradient(135deg,var(--c),var(--p));border:none;border-radius:30px;color:#fff;font-weight:700;z-index:320;display:none}
+.gameSkip.on{display:block}
+.gameStartBtn{position:fixed;bottom:50%;left:50%;transform:translate(-50%,50%);padding:1.5rem 3rem;font-size:clamp(1.2rem,5vw,1.8rem);font-weight:700;background:linear-gradient(135deg,var(--p),var(--pu));border:none;border-radius:50px;color:#fff;cursor:pointer;z-index:250;display:none;box-shadow:0 0 40px var(--p),0 0 80px var(--pu);animation:gameBtnPulse 1s infinite}
+.gameStartBtn.on{display:block}
+@keyframes gameBtnPulse{0%,100%{transform:translate(-50%,50%)scale(1)}50%{transform:translate(-50%,50%)scale(1.05)}}
+.gameOver{position:fixed;inset:0;background:rgba(0,0,0,.96);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:600}
+.gameOver.on{display:flex}
+.gameOver h1{font-size:clamp(2rem,10vw,3.5rem);color:#fff;text-shadow:0 0 40px var(--p);margin-bottom:1rem}
+.gameOver p{font-size:1.5rem;color:#ffd700;margin-bottom:2rem}
+.gameOver button{padding:1rem 2.2rem;font-size:1.1rem;background:linear-gradient(135deg,var(--p),var(--pu));border:none;border-radius:30px;color:#fff;font-weight:700;margin:.5rem}
+.burstPop{position:fixed;top:40%;left:50%;transform:translate(-50%,-50%);font-size:clamp(2rem,10vw,3.5rem);font-weight:900;color:#fff;text-shadow:0 0 30px var(--p);animation:burst .55s forwards;z-index:350;pointer-events:none}
+@keyframes burst{0%{transform:translate(-50%,-50%)scale(0)rotate(-10deg);opacity:1}50%{transform:translate(-50%,-50%)scale(1.6)rotate(8deg)}100%{transform:translate(-50%,-50%)scale(2.2)rotate(0deg);opacity:0}}
+.screenFlash{position:fixed;inset:0;background:#fff;animation:flash .08s forwards;z-index:330;pointer-events:none}
+@keyframes flash{0%{opacity:.6}100%{opacity:0}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes pop{0%{opacity:0;transform:scale(.5)}70%{transform:scale(1.15)}100%{opacity:1;transform:scale(1)}}
+</style>
 </head>
 <body>
-    <audio id="bgMusic" src="birthday-song.mp3" preload="auto" loop></audio>
-    
-    <div id="scene-walk">
-        <div class="neon">🎂 CLUB 25 🎂</div>
-        <div class="walk-icon">🚶‍♀️</div>
-        <div class="walk-text">Walking to the party...</div>
-    </div>
-    
-    <div id="scene-id">
-        <div class="id-box">
-            <div class="cam"><div class="beam"></div></div>
-            <div class="id-status">▌▌ SCANNING ▌▌</div>
-            <div class="id-ok" id="idOk">✓ ID VERIFIED - 25+</div>
-        </div>
-    </div>
-    
-    <div id="scene-k9">
-        <div class="k9-dog">🐕‍🦺</div>
-        <div class="k9-status">🚨 K9 SCAN</div>
-        <div class="k9-result" id="k9Result">✅ CLEAR</div>
-    </div>
-    
-    <div id="scene-rave">
-        <div class="rave-bg"></div>
-        <div class="tunnel" id="tunnel"></div>
-        
-        <div class="lights" id="lights"></div>
-        
-        <div class="stage">
-            <div class="deck"><div class="deck-disc"></div></div>
-            <div class="deck"><div class="deck-disc"></div></div>
-            <div class="deck"><div class="deck-disc"></div></div>
-        </div>
-        
-        <div class="smoke">
-            <div class="smoke-j"></div><div class="smoke-j"></div><div class="smoke-j"></div><div class="smoke-j"></div>
-        </div>
-        
-        <div class="floor"></div>
-        
-        <div class="speakers">
-            <div class="sp-cluster">
-                <div class="sp-box"><div class="sp-cone"></div></div>
-                <div class="sp-box"><div class="sp-cone"></div></div>
-                <div class="sp-box"><div class="sp-cone"></div></div>
-            </div>
-            <div class="sp-cluster">
-                <div class="sp-box"><div class="sp-cone"></div></div>
-                <div class="sp-box"><div class="sp-cone"></div></div>
-                <div class="sp-box"><div class="sp-cone"></div></div>
-            </div>
-        </div>
-        
-        <div class="parts" id="parts"></div>
-        
-        <div class="content">
-            <div id="cnt">
-                <div class="count-label">GET READY</div>
-                <div class="countdown" id="count"></div>
-            </div>
-            <div class="reveal" id="reveal">
-                <div class="bday-title">🎉 HAPPY 25TH 🎉</div>
-                <div class="bday-name">DARLEY!</div>
-                <img src="darley-photo.jpg" class="photo" alt="Darley">
-            </div>
-        </div>
-        
-        <div class="hint" id="hint">👆 TAP FOR MAGIC 👆</div>
-        <div class="str" id="str"></div>
-        <div class="rainbow" id="rainbow"></div>
-    </div>
+<audio id="bgMusic" src="birthday-song.mp3" preload="auto" loop></audio>
 
-    <script>
-        const s = { w: document.getElementById('scene-walk'), i: document.getElementById('scene-id'), k: document.getElementById('scene-k9'), r: document.getElementById('scene-rave') };
-        const idOk = document.getElementById('idOk'), k9Result = document.getElementById('k9Result'), count = document.getElementById('count'), cnt = document.getElementById('cnt'), reveal = document.getElementById('reveal'), str = document.getElementById('str'), music = document.getElementById('bgMusic'), parts = document.getElementById('parts'), hint = document.getElementById('hint'), tunnel = document.getElementById('tunnel'), rainbow = document.getElementById('rainbow'), lights = document.getElementById('lights');
-        
-        const cols = ['#ff00ff', '#00ffff', '#ffff00', '#8b00ff', '#ff6600', '#00ff66', '#ff0044'];
-        const ems = ['🎉', '🎊', '🎈', '💖', '💯', '🔥', '⭐', '💃', '🎂', '🥳', '😎', '🤩', '🎵'];
-        
-        let active = false, timer;
-        
-        // Make lights
-        for (let i = 0; i < 15; i++) {
-            const l = document.createElement('div');
-            l.className = 'light';
-            l.style.background = `linear-gradient(to top, ${cols[i % cols.length]}, transparent)`;
-            l.style.animationDelay = (i * 0.13) + 's';
-            lights.appendChild(l);
-        }
-        
-        function p() { const p = document.createElement('div'); p.className = 'part'; p.style.left = Math.random() * 100 + 'vw'; p.style.top = '-15px'; p.style.width = p.style.height = (Math.random() * 15 + 5) + 'px'; p.style.background = cols[Math.floor(Math.random() * cols.length)]; p.style.animationDuration = (Math.random() * 1 + 1.5) + 's'; p.style.boxShadow = '0 0 10px ' + p.style.background; parts.appendChild(p); setTimeout(() => p.remove(), 2500); }
-        
-        function fw(x, y) { const c = cols[Math.floor(Math.random() * cols.length)]; for (let i = 0; i < 15; i++) { const f = document.createElement('div'); f.className = 'fw'; f.style.left = x + 'px'; f.style.top = y + 'px'; f.style.background = c; f.style.boxShadow = '0 0 8px ' + c; const a = (i / 15) * Math.PI * 2, d = Math.random() * 100 + 50; f.style.setProperty('--tx', Math.cos(a) * d + 'px'); f.style.setProperty('--ty', Math.sin(a) * d + 'px'); document.body.appendChild(f); setTimeout(() => f.remove(), 1000); } }
-        
-        function rp(x, y) { const r = document.createElement('div'); r.className = 'rip'; r.style.left = (x - 150) + 'px'; r.style.top = (y - 150) + 'px'; r.style.borderColor = cols[Math.floor(Math.random() * cols.length)]; document.body.appendChild(r); setTimeout(() => r.remove(), 800); }
-        
-        function em(x, y) { for (let i = 0; i < 6; i++) { const e = document.createElement('div'); e.className = 'em'; e.textContent = ems[Math.floor(Math.random() * ems.length)]; e.style.left = x + 'px'; e.style.top = y + 'px'; const a = (i / 6) * Math.PI * 2, d = Math.random() * 60 + 30; e.style.setProperty('--ex', Math.cos(a) * d + 'px'); e.style.setProperty('--ey', Math.sin(a) * d + 'px'); document.body.appendChild(e); setTimeout(() => e.remove(), 1200); } }
-        
-        function tap(e) { if (!active) return; const x = e.clientX || e.touches?.[0]?.clientX || w/2, y = e.clientY || e.touches?.[0]?.clientY || h/2; const t = Math.floor(Math.random() * 5); if (t === 0) fw(x, y); else if (t === 1) em(x, y); else if (t === 2) rp(x, y); else if (t === 3) { document.body.style.transform = 'translate(5px, -5px)'; setTimeout(() => document.body.style.transform = '', 100); } else { fw(x, y); rp(x, y); } for (let i = 0; i < 3; i++) setTimeout(p, i * 40); }
-        
-        let lt = 0;
-        document.addEventListener('touchstart', (e) => { if (!active) return; const n = Date.now(); if (n - lt < 300) { str.classList.add('flash'); setTimeout(() => str.classList.remove('flash'), 500); } lt = n; timer = setTimeout(() => { tunnel.classList.add('on'); rainbow.classList.add('on'); }, 700); }, { passive: true });
-        document.addEventListener('touchend', () => { clearTimeout(timer); tunnel.classList.remove('on'); rainbow.classList.remove('on'); }, { passive: true });
-        document.addEventListener('click', tap);
-        
-        async function run() {
-            await w8(2500); s.w.classList.add('hidden'); s.i.classList.add('active');
-            await w8(1500); idOk.classList.add('show');
-            await w8(1500); s.i.classList.remove('active'); s.k.classList.add('active');
-            await w8(1500); k9Result.classList.add('show');
-            await w8(1000); s.k.classList.remove('active'); s.r.classList.add('active');
-            await w8(300); startC();
-        }
-        
-        function startC() {
-            let c = 3;
-            const iv = setInterval(() => {
-                count.textContent = c > 0 ? c : '🎉';
-                count.style.animation = 'none'; count.offsetHeight; count.style.animation = 'pop 0.3s';
-                if (c === 0) { clearInterval(iv); cnt.style.display = 'none'; reveal.classList.add('on'); str.classList.add('flash'); setTimeout(() => str.classList.remove('flash'), 500); music.volume = 0.8; music.play().catch(() => {}); active = true; hint.style.display = 'block'; setInterval(p, 40); }
-                c--;
-            }, 800);
-        }
-        
-        function w8(ms) { return new Promise(r => setTimeout(r, ms)); }
-        
-        const w = window.innerWidth, h = window.innerHeight;
-        
-        music.play().catch(() => {});
-        setTimeout(run, 800);
-    </script>
+<div id="start-screen">
+<div class="s-cake">🎂</div>
+<div class="s-title">CLUB 25</div>
+<div class="s-sub">DARLEY'S BIRTHDAY</div>
+<button class="btn-tap" id="enterBtn">👆 TAP TO ENTER 👆</button>
+</div>
+
+<div id="scene-walk" class="scene">
+<div class="walk-anim">🚶‍♀️</div>
+<div class="walk-txt">Walking to the club...</div>
+</div>
+
+<div id="scene-id" class="scene">
+<div class="id-card">
+<div class="id-cam"><div class="id-beam"></div></div>
+<div class="id-scan">▌▌ SCANNING ID ▌▌</div>
+<div class="id-name">DARLEY</div>
+<div class="id-dob">DOB: 03/15/2001</div>
+<div class="id-age">AGE: 25</div>
+<div class="id-ok" id="idOk">✓ ID VERIFIED - 25+</div>
+</div>
+</div>
+
+<div id="scene-drugscan" class="scene">
+<div class="drugscan-title">🔍 DRUG SCAN REQUIRED 🔍</div>
+<div class="drug-card">
+<div class="drug-card-header">
+<div class="drug-card-icon">🐕‍🦺</div>
+<div class="drug-card-title">K9 Security</div>
+</div>
+<div class="drug-scanner-line"></div>
+<div class="drug-items-zone" id="drugItemsZone"></div>
+<div class="drug-status">
+<div class="drug-status-text" id="drugStatusText">SCANNING...</div>
+<div class="drug-status-sub">Please hold still</div>
+</div>
+<div class="drug-result" id="drugResult">
+<div class="drug-result-emoji">✅</div>
+<div class="drug-result-text">ALL CLEAR!</div>
+</div>
+</div>
+</div>
+
+<div id="countScreen">
+<div class="countText" id="countNum">3</div>
+<div class="countLabel">LET'S GET THIS PARTY STARTED!</div>
+</div>
+
+<div class="rave-world" id="raveWorld">
+<div class="void"><div class="starzone" id="starZone"></div></div>
+<div class="tripEye" id="tripEye">👁️</div>
+<div class="beamzone" id="beamZone"></div>
+<div class="lava-zone" id="lavaZone"></div>
+<div class="molecule-zone" id="moleculeZone"></div>
+<div class="discozone" id="discoZone"></div>
+<div class="smokezone" id="smokeZone"></div>
+<div class="dfloor"></div>
+<div class="confettiZone" id="confettiZone"></div>
+</div>
+
+<div class="psycho" id="psycho"></div>
+<div class="warpzone" id="warpZone"></div>
+<div class="strobeZone" id="strobeZone"></div>
+<div class="tunnelZone" id="tunnelZone"></div>
+
+<img src="darley-photo.jpg" class="photoFrame" id="darleyPhoto" alt="Happy Birthday Darley!">
+<div class="bdayText" id="bdayText">🎉 HAPPY 25TH BIRTHDAY DARLEY! 🎉</div>
+<div class="tapHint" id="tapHint">👆 TAP ANYWHERE FOR EFFECTS! 👆</div>
+<button class="gameStartBtn" id="gameStartBtn" onclick="startGame()">🎮 TAP TO PLAY! 🎮</button>
+
+<div class="gameHud" id="gameHud"><div class="scoreBox" id="scoreBox">SCORE: 0</div></div>
+<div class="track-zone" id="trackZone"><div class="lane-marker left"></div><div class="lane-marker right"></div></div>
+<div class="runnerGuy" id="runnerGuy">🕺</div>
+<button class="gameSkip" id="gameSkip">🎉 JUST PARTY!</button>
+
+<div class="gameOver" id="gameOver">
+<h1>🎮 GAME OVER!</h1>
+<p>Final Score: <span id="finalScore">0</span></p>
+<button onclick="restartGame()">🔄 PLAY AGAIN</button>
+<button onclick="skipGame()">🎉 JUST PARTY!</button>
+</div>
+
+<script>
+let gameOn=false,score=0,gameItems=[],gameObstacles=[],runnerLane=1;
+const COLORS=['#ff00ff','#00ffff','#ffff00','#8b00ff','#ff6600','#ff0066','#00ff66','#ff3300'];
+const GOODS=['💰','💵','💊','🍄','🍸','🍹','🎂','🎁','🔥','⭐','💎','👜','💸'];
+const BADS=['🚧','🪨','👮','💼'];
+const DRUGS=['💊','💉','🍄','🧪','💊','💰','💵','🍬','☘️'];
+
+// Build environment
+for(let i=0;i<70;i++){
+let s=document.createElement('div');s.className='star';
+s.style.left=Math.random()*100+'%';s.style.top=Math.random()*80+'%';
+s.style.width=(2+Math.random()*3)+'px';s.style.height=s.style.width;
+s.style.animationDelay=Math.random()*2+'s';
+document.getElementById('starZone').appendChild(s);}
+for(let i=0;i<12;i++){
+let b=document.createElement('div');b.className='lbeam';
+b.style.left=(i*9)+'%';b.style.background='linear-gradient(to top,'+COLORS[i%4]+',transparent)';
+b.style.animationDelay=(i*.18)+'s';b.style.height=(140+Math.random()*60)+'vh';
+document.getElementById('beamZone').appendChild(b);}
+for(let i=0;i<32;i++){
+let d=document.createElement('div');d.className='disco';
+d.style.background='linear-gradient(to top,'+COLORS[i%COLORS.length]+',transparent)';
+d.style.color=COLORS[i%COLORS.length];
+d.style.animationDelay=(i*.028)+'s';
+document.getElementById('discoZone').appendChild(d);}
+for(let i=0;i<7;i++){
+let s=document.createElement('div');s.className='cloudsmoke';
+s.style.left=(i*16-25)+'%';s.style.background='radial-gradient(ellipse,'+COLORS[i%4]+',transparent)';
+s.style.animationDelay=(i*.7)+'s';
+document.getElementById('smokeZone').appendChild(s);}
+const lavaColors=['#ff00ff','#8b00ff','#ff0066','#00ffff'];
+for(let i=0;i<6;i++){
+let b=document.createElement('div');b.className='lava-blob';
+b.style.width=(80+Math.random()*120)+'px';b.style.height=b.style.width;
+b.style.left=(10+i*15)+'%';b.style.top=(10+Math.random()*30)+'%';
+b.style.background=lavaColors[i%lavaColors.length];
+b.style.animationDelay=(i*1.2)+'s';
+document.getElementById('lavaZone').appendChild(b);}
+const molecules=['⚛️','🧬','🔮','✨','💫','🌟'];
+for(let i=0;i<8;i++){
+let m=document.createElement('div');m.className='molecule';
+m.textContent=molecules[i%molecules.length];
+m.style.left=(i*12)+'%';m.style.top=(10+Math.random()*50)+'%';
+m.style.animationDuration=(8+Math.random()*4)+'s';m.style.animationDelay=(i*.5)+'s';
+document.getElementById('moleculeZone').appendChild(m);}
+
+// Enter flow
+document.getElementById('enterBtn').onclick=function(){
+document.getElementById('start-screen').classList.add('hidden');
+document.getElementById('bgMusic').volume=.95;
+document.getElementById('bgMusic').play().catch(()=>{});
+document.getElementById('scene-walk').classList.add('active');
+setTimeout(function(){
+document.getElementById('scene-walk').classList.remove('active');
+document.getElementById('scene-id').classList.add('active');
+setTimeout(function(){
+document.getElementById('idOk').classList.add('show');
+setTimeout(function(){
+document.getElementById('scene-id').classList.remove('active');
+startDrugScan();
+},1600);
+},1600);
+},3000);
+};
+
+// Drug scan
+function startDrugScan(){
+document.getElementById('scene-drugscan').classList.add('active');
+document.getElementById('drugStatusText').textContent='SCANNING...';
+document.getElementById('drugResult').classList.remove('show');
+let drugCount=0;
+let drugInt=setInterval(function(){
+if(drugCount>=15){clearInterval(drugInt);return;}
+let d=document.createElement('div');d.className='drug-item';
+d.textContent=DRUGS[Math.floor(Math.random()*DRUGS.length)];
+d.style.left=(5+Math.random()*90)+'%';
+d.style.animationDuration=(1.5+Math.random())+'s';
+document.getElementById('drugItemsZone').appendChild(d);
+setTimeout(function(){d.remove();},2500);
+drugCount++;
+},150);
+setTimeout(function(){
+document.getElementById('drugStatusText').textContent='ANALYZING...';
+document.getElementById('drugStatusText').style.color='var(--y)';
+},1800);
+setTimeout(function(){
+document.getElementById('drugStatusText').textContent='DETECTING...';
+document.getElementById('drugStatusText').style.color='var(--o)';
+},2800);
+setTimeout(function(){
+document.getElementById('drugStatusText').textContent='ALL CLEAR!';
+document.getElementById('drugStatusText').style.color='var(--g)';
+document.getElementById('drugResult').classList.add('show');
+setTimeout(function(){
+document.getElementById('scene-drugscan').classList.remove('active');
+document.getElementById('raveWorld').classList.add('on');
+startCountdown();
+},2300);
+},3500);
+}
+
+// Countdown
+function startCountdown(){
+document.getElementById('countScreen').classList.add('on');
+let n=3;
+let iv=setInterval(function(){
+document.getElementById('countNum').textContent=n>0?n:'🎉';
+document.getElementById('countNum').style.animation='none';
+document.getElementById('countNum').offsetHeight;
+document.getElementById('countNum').style.animation='countBang .5s';
+triggerAllEffects();spawnConfetti(25);
+if(navigator.vibrate)navigator.vibrate([100,50,100]);
+if(n===0){clearInterval(iv);document.getElementById('countScreen').classList.remove('on');startParty();}
+n--;
+},800);
+}
+
+function triggerAllEffects(){
+document.getElementById('psycho').classList.add('on');
+document.getElementById('strobeZone').classList.add('on');
+document.getElementById('warpZone').innerHTML='<div class="warpRing on"></div>';
+setTimeout(function(){
+document.getElementById('psycho').classList.remove('on');
+document.getElementById('strobeZone').classList.remove('on');
+},400);
+}
+
+function spawnConfetti(amt){
+for(let i=0;i<amt;i++){
+setTimeout(function(){
+let c=document.createElement('div');c.className='cdrop';
+c.style.left=Math.random()*100+'%';
+c.style.background=COLORS[Math.floor(Math.random()*COLORS.length)];
+c.style.animationDuration=(1.5+Math.random()*1.5)+'s';
+document.getElementById('confettiZone').appendChild(c);
+setTimeout(function(){c.remove()},3000);
+},i*35);}
+}
+
+function startParty(){
+document.getElementById('darleyPhoto').classList.add('on');
+document.getElementById('bdayText').classList.add('on');
+document.getElementById('tapHint').classList.add('on');
+setInterval(function(){
+if(!gameOn&&Math.random()<.4){triggerAllEffects();playHitSound();}
+},2200);
+setInterval(function(){spawnConfetti(12);},1800);
+setInterval(function(){
+document.getElementById('warpZone').innerHTML='<div class="warpRing on"></div>';
+setTimeout(function(){document.getElementById('warpZone').innerHTML='';},1200);
+},2800);
+// Show game start button after party
+setTimeout(function(){
+document.getElementById('gameStartBtn').classList.add('on');
+},4000);
+}
+
+function startGame(){
+document.getElementById('gameStartBtn').classList.remove('on');
+
+// Subway Surfer style game
+function startGame(){
+gameOn=true;score=0;
+document.getElementById('scoreBox').textContent='SCORE: 0';
+document.getElementById('gameHud').classList.add('on');
+document.getElementById('trackZone').classList.add('on');
+document.getElementById('runnerGuy').style.display='block';
+document.getElementById('tapHint').textContent='👆 TAP TO JUMP! 👆';
+document.getElementById('gameSkip').classList.add('on');
+spawnItem();spawnObstacle();moveItems();
+}
+
+function spawnItem(){
+if(!gameOn)return;
+let it=document.createElement('div');it.className='gameItem onTrack';
+it.textContent=GOODS[Math.floor(Math.random()*GOODS.length)];
+let lane=[15,50,85][Math.floor(Math.random()*3)];
+it.style.left=lane+'%';
+it.style.animationDuration=(2+Math.random())+'s';
+document.body.appendChild(it);gameItems.push(it);
+setTimeout(spawnItem,700);
+}
+
+function spawnObstacle(){
+if(!gameOn)return;
+let obs=document.createElement('div');obs.className='gameObstacle';
+obs.textContent=BADS[Math.floor(Math.random()*BADS.length)];
+let lane=[15,50,85][Math.floor(Math.random()*3)];
+obs.style.left=lane+'%';
+obs.style.animationDuration=(2+Math.random())+'s';
+document.body.appendChild(obs);gameObstacles.push(obs);
+setTimeout(spawnObstacle,1200);
+}
+
+function moveItems(){
+if(!gameOn)return;
+let r=document.getElementById('runnerGuy').getBoundingClientRect();
+gameItems.forEach(function(it,idx){
+let ir=it.getBoundingClientRect();
+if(r.right>ir.left+25&&r.left<ir.right-25&&r.bottom>ir.top+25&&r.top<ir.bottom-25){
+let pts={'💰':600,'💵':500,'💊':350,'🍄':300,'🍸':120,'🍹':180,'🎂':250,'🎁':280,'🔥':320,'⭐':400,'💎':500,'👜':250,'💸':450};
+score+=pts[it.textContent]||150;
+document.getElementById('scoreBox').textContent='SCORE: '+score;
+showBurst('+'+(pts[it.textContent]||150));hitFX();it.remove();gameItems.splice(idx,1);
+}
+if(parseFloat(it.style.left)>120){it.remove();gameItems.splice(idx,1);}
+});
+gameObstacles.forEach(function(ob,idx){
+let obr=ob.getBoundingClientRect();
+if(r.right>obr.left+25&&r.left<obr.right-25&&r.bottom>obr.top){
+gameOver();}
+if(parseFloat(ob.style.left)>120){ob.remove();gameObstacles.splice(idx,1);}
+});
+setTimeout(moveItems,22);
+}
+
+function doJump(){
+if(!gameOn)return;
+let g=document.getElementById('runnerGuy');
+g.classList.add('jumping');
+if(navigator.vibrate)navigator.vibrate(12);
+setTimeout(function(){g.classList.remove('jumping');},500);
+}
+
+function showBurst(txt){
+let b=document.createElement('div');b.className='burstPop';b.textContent=txt;
+document.body.appendChild(b);setTimeout(function(){b.remove();},550);
+}
+
+function hitFX(){
+let f=document.createElement('div');f.className='screenFlash';document.body.appendChild(f);
+setTimeout(function(){f.remove();},80);
+triggerAllEffects();playHitSound();if(navigator.vibrate)navigator.vibrate(30);
+}
+
+function playHitSound(){
+try{let a=new(window.AudioContext||window.webkitAudioContext)();let o=a.createOscillator();let g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.setValueAtTime(350+Math.random()*350,a.currentTime);g.gain.setValueAtTime(.2,a.currentTime);g.gain.exponentialRampToValueAtTime(.01,a.currentTime+.12);o.start();o.stop(a.currentTime+.12);}catch(e){}
+}
+
+function gameOver(){
+gameOn=false;gameItems.forEach(function(t){t.remove();});gameItems=[];
+gameObstacles.forEach(function(t){t.remove();});gameObstacles=[];
+document.getElementById('finalScore').textContent=score;
+document.getElementById('gameOver').classList.add('on');
+hitFX();if(navigator.vibrate)navigator.vibrate([100,50,100,50,100]);
+}
+
+function restartGame(){
+document.getElementById('gameOver').classList.remove('on');
+startGame();
+}
+
+function skipGame(){
+gameOn=false;gameItems.forEach(function(t){t.remove();});gameItems=[];
+gameObstacles.forEach(function(t){t.remove();});gameObstacles=[];
+document.getElementById('gameOver').classList.remove('on');
+document.getElementById('gameHud').classList.remove('on');
+document.getElementById('trackZone').classList.remove('on');
+document.getElementById('runnerGuy').style.display='none';
+document.getElementById('gameSkip').classList.remove('on');
+document.getElementById('tapHint').textContent='👆 TAP ANYWHERE FOR EFFECTS! 👆';
+}
+
+// Handlers
+document.addEventListener('click',function(){if(gameOn)doJump();});
+document.addEventListener('touchstart',function(e){if(gameOn){e.preventDefault();doJump();}},{passive:false});
+document.addEventListener('click',partyTap);
+document.addEventListener('touchstart',partyTap);
+function partyTap(){
+if(gameOn)return;
+if(!document.getElementById('darleyPhoto').classList.contains('on'))return;
+hitFX();
+}
+document.getElementById('gameSkip').onclick=skipGame;
+</script>
 </body>
 </html>
