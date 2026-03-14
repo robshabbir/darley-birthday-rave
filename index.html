@@ -8,11 +8,11 @@
 <style>
 * { margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; overflow: hidden; touch-action: manipulation; }
-body { background: #0a0a12; font-family: 'Arial', sans-serif; color: white; overflow: hidden; }
+body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overflow: hidden; }
 #start { position: fixed; inset: 0; background: linear-gradient(135deg, #1a0a2e, #0d0d1a); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 1000; }
 #start.hidden { display: none; }
 .cake { font-size: clamp(5rem,25vw,10rem); animation: bounce 1s infinite; filter: drop-shadow(0 0 40px #ff2d95); }
-.title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem,15vw,6rem); letter-spacing: 0.1em; background: linear-gradient(180deg,#fff,#ff2d95,#00d4ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem,15vw,6rem); background: linear-gradient(180deg,#fff,#ff2d95,#00d4ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 .subtitle { font-size: clamp(1rem,4vw,1.5rem); color: #00d4ff; letter-spacing: 0.4em; margin-bottom: 40px; }
 .enterBtn { padding: 25px 60px; font-size: clamp(1.2rem,5vw,1.8rem); font-weight: bold; background: linear-gradient(135deg,#ff2d95,#ff00ff); border: none; border-radius: 60px; color: white; box-shadow: 0 0 60px rgba(255,45,149,0.6); animation: pulse 1.5s infinite; }
 @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
@@ -24,7 +24,7 @@ body { background: #0a0a12; font-family: 'Arial', sans-serif; color: white; over
 @keyframes walk { from{transform:translateX(-40px)} to{transform:translateX(40px)} }
 .walk-txt { color: #00d4ff; font-size: clamp(1.2rem,5vw,1.8rem); margin-top: 20px; }
 #scene-id { background: #020205; }
-.id-card { background: linear-gradient(145deg,#151520,#0a0a15); border: 4px solid #00d4ff; border-radius: 25px; padding: 30px; width: 80%; max-width: 300px; box-shadow: 0 0 60px rgba(0,212,255,0.4); text-align: center; }
+.id-card { background: linear-gradient(145deg,#151520,#0a0a15); border: 4px solid #00d4ff; border-radius: 25px; padding: 30px; width: 80%; max-width: 300px; text-align: center; }
 .id-cam { width: 80px; height: 80px; border-radius: 50%; background: #000; border: 5px solid #222; margin: 0 auto 20px; position: relative; }
 .id-cam::after { content:'👤'; position:absolute; top:25%; left:25%; font-size:40px; animation: blink 0.5s infinite; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.5} }
@@ -53,8 +53,7 @@ body { background: #0a0a12; font-family: 'Arial', sans-serif; color: white; over
 #party { background: #000; position: fixed; inset: 0; overflow: hidden; }
 .party-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at center,#2a0040,#000); animation: bgPulse 4s infinite; }
 @keyframes bgPulse { 0%,100%{background:radial-gradient(ellipse at 30% 20%,#2a0040,#000)} 50%{background:radial-gradient(ellipse at 70% 30%,#002040,#000)} }
-/* INTENSE LIGHTS */
-.lights { position: absolute; top: 0; left: 0; right: 0; height: 100%; overflow: hidden; pointer-events: none; }
+.lights { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .spot { position: absolute; width: 200px; height: 200px; border-radius: 50%; filter: blur(60px); opacity: 0.8; animation: spotMove 3s ease-in-out infinite; }
 .spot:nth-child(1){background:#ff2d95;top:-100px;left:10%;animation-delay:0s}
 .spot:nth-child(2){background:#00d4ff;top:-100px;left:30%;animation-delay:0.5s}
@@ -77,39 +76,39 @@ body { background: #0a0a12; font-family: 'Arial', sans-serif; color: white; over
 .darley-face{width:clamp(140px,40vw,200px);height:clamp(140px,40vw,200px);border-radius:50%;border:6px solid #fff;box-shadow:0 0 40px #ff2d95,0 0 80px #00d4ff;overflow:hidden;animation:faceDance 0.3s infinite alternate}
 @keyframes faceDance{from{transform:scale(1)}to{transform:scale(1.05)}}
 .darley-face img{width:100%;height:100%;object-fit:cover}
-.bday-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,6vw,3rem);color:#fff;text-shadow:0 0 30px #ff2d95;margin-top:10px;white-space:nowrap}
+.bday-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,6vw,3rem);color:#fff;text-shadow:0 0 30px #ff2d95;margin-top:10px}
 .confetti{position:fixed;width:10px;height:10px;top:-20px;animation:confettiFall 3s linear forwards;z-index:60}
 @keyframes confettiFall{0%{transform:translateY(0)rotate(0deg);opacity:1}100%{transform:translateY(110vh)rotate(720deg);opacity:0}}
 .tap-hint{position:absolute;top:50%;left:50%;transform:translate(-50%,60px);padding:15px 30px;background:rgba(255,45,149,0.5);border:3px solid #ff2d95;border-radius:30px;font-size:1rem;animation:pulse 1s infinite;z-index:110}
-/* GAME */
-.game-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;flex-direction:column;z-index:200}
-.game-overlay.show{display:flex}
-.game-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,8vw,4rem);color:#ffd600;text-align:center;padding:20px;text-shadow:0 0 30px #ffd600}
-.game-score{font-size:clamp(1.5rem,5vw,2.5rem);font-weight:bold;color:#00ff88;text-align:center}
-.game-track{position:absolute;bottom:0;left:0;right:0;height:45%;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.95))}
-.runner{position:absolute;bottom:22%;left:50%;transform:translateX(-50%);font-size:clamp(4rem,15vw,6rem);filter:drop-shadow(0 0 30px #00d4ff);z-index:70}
-.runner.jump{animation:jump 0.5s ease-out}
-@keyframes jump{0%{bottom:22%}40%{bottom:50%}100%{bottom:22%}}
-.item{position:absolute;bottom:22%;font-size:clamp(2.5rem,10vw,4.5rem);z-index:65;animation:itemMove 2s linear forwards}
-@keyframes itemMove{0%{right:-50px}100%{right:110%}}
 .game-btn{position:absolute;bottom:10%;left:50%;transform:translateX(-50%);padding:20px 50px;font-size:1.3rem;font-weight:bold;background:linear-gradient(135deg,#ff2d95,#00d4ff);border:none;border-radius:50px;color:#fff;box-shadow:0 10px 40px rgba(255,45,149,0.5);animation:pulse 1.5s infinite;z-index:120}
 .skip-btn{position:absolute;bottom:22%;left:50%;transform:translateX(-50%);padding:12px 30px;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);border-radius:25px;color:#fff;z-index:120}
-/* GAME OVER */
-.game-over{position:fixed;inset:0;background:linear-gradient(180deg,#1a0030,#000);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:300}
-.game-over.show{display:flex}
-.game-over h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,12vw,6rem);margin-bottom:20px;text-shadow:0 0 40px #ff2d95}
-.final-score{font-size:clamp(2rem,8vw,4rem);color:#ffd600;font-weight:bold}
-.best-score{font-size:1.5rem;color:#00ff88;margin-bottom:30px}
-.game-over button{padding:18px 50px;font-size:1.3rem;font-weight:bold;background:linear-gradient(135deg,#ff2d95,#00d4ff);border:none;border-radius:50px;color:#fff;margin:10px}
-.leaderboard{text-align:center;margin-top:30px}
-.leaderboard h3{color:#00d4ff;font-size:1.5rem;margin-bottom:15px}
-.leaderboard ol{list-style:none;padding:0}
-.leaderboard li{padding:8px 0;font-size:1.1rem;color:#aaa}
-.leaderboard li:first-child{color:#ffd600;font-weight:bold}
-.burst{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-size:clamp(2rem,10vw,4rem);font-weight:bold;color:#fff;text-shadow:0 0 40px #ff2d95;animation:burst 0.6s forwards;z-index:250;pointer-events:none}
-@keyframes burst{0%{transform:translate(-50%,-50%)scale(0)}50%{transform:translate(-50%,-50%)scale(1.5)}100%{transform:translate(-50%,-50%)scale(2);opacity:0}}
-.flash{position:fixed;inset:0;background:#fff;animation:flash 0.1s forwards;z-index:240}
-@keyframes flash{0%{opacity:0.6}100%{opacity:0}}
+/* Game Screen */
+#gameScreen { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 200; flex-direction: column; }
+#gameScreen.active { display: flex; }
+.game-header { text-align: center; padding: 15px; background: linear-gradient(180deg, rgba(255,45,149,0.3), transparent); }
+.game-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem,8vw,4rem); color: #ffd600; }
+.game-score { font-size: clamp(1.5rem,5vw,2.5rem); font-weight: bold; color: #00ff88; }
+.game-track { position: absolute; bottom: 0; left: 0; right: 0; height: 45%; background: linear-gradient(180deg, transparent, rgba(0,0,0,0.95)); }
+.runner { position: absolute; bottom: 22%; left: 50%; transform: translateX(-50%); font-size: clamp(4rem,15vw,6rem); filter: drop-shadow(0 0 30px #00d4ff); z-index: 70; }
+.runner.jump { animation: jump 0.5s ease-out; }
+@keyframes jump { 0%{bottom:22%} 40%{bottom:50%} 100%{bottom:22%} }
+.item { position: absolute; bottom: 22%; font-size: clamp(2.5rem,10vw,4.5rem); z-index: 65; animation: itemMove 2s linear forwards; }
+@keyframes itemMove { 0%{right:-50px} 100%{right:110%} }
+.game-over { position: fixed; inset: 0; background: linear-gradient(180deg,#1a0030,#000); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 300; }
+.game-over.show { display: flex; }
+.game-over h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem,12vw,6rem); margin-bottom: 20px; }
+.final-score { font-size: clamp(2rem,8vw,4rem); color: #ffd600; font-weight: bold; }
+.best-score { font-size: 1.5rem; color: #00ff88; margin-bottom: 30px; }
+.game-over button { padding: 18px 50px; font-size: 1.3rem; font-weight: bold; background: linear-gradient(135deg,#ff2d95,#00d4ff); border: none; border-radius: 50px; color: #fff; margin: 10px; }
+.leaderboard { text-align: center; margin-top: 30px; }
+.leaderboard h3 { color: #00d4ff; font-size: 1.5rem; margin-bottom: 15px; }
+.leaderboard ol { list-style: none; padding: 0; }
+.leaderboard li { padding: 8px 0; font-size: 1.1rem; color: #aaa; }
+.leaderboard li:first-child { color: #ffd600; font-weight: bold; }
+.burst { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: clamp(2rem,10vw,4rem); font-weight: bold; color: #fff; text-shadow: 0 0 40px #ff2d95; animation: burst 0.6s forwards; z-index: 250; pointer-events: none; }
+@keyframes burst { 0%{transform:translate(-50%,-50%)scale(0)} 50%{transform:translate(-50%,-50%)scale(1.5)} 100%{transform:translate(-50%,-50%)scale(2);opacity:0} }
+.flash { position: fixed; inset: 0; background: #fff; animation: flash 0.1s forwards; z-index: 240; }
+@keyframes flash { 0%{opacity:0.6} 100%{opacity:0} }
 </style>
 </head>
 <body>
@@ -166,7 +165,6 @@ body { background: #0a0a12; font-family: 'Arial', sans-serif; color: white; over
   <div class="stars" id="stars"></div>
   <div class="floor"></div>
   
-  <!-- DARLEY AT TOP -->
   <div class="darley-top">
     <div class="darley-face">
       <img src="darley-photo.jpg" alt="Darley">
@@ -176,17 +174,21 @@ body { background: #0a0a12; font-family: 'Arial', sans-serif; color: white; over
   
   <div class="tap-hint" id="tapHint">👆 TAP ANYWHERE FOR CONFETTI! 👆</div>
   
-  <div class="game-overlay" id="gameOverlay">
-    <div class="game-title">🏃 PARTY RUNNER 🏃</div>
-    <div class="game-score">SCORE: <span id="score">0</span></div>
-    <div class="game-track"></div>
-    <div class="runner" id="runner">🕺</div>
-  </div>
-  
   <button class="game-btn" id="gameBtn">🎮 TAP TO PLAY! 🎮</button>
   <button class="skip-btn" id="skipBtn">⏭️ JUST PARTY</button>
 </div>
 
+<!-- Game Screen -->
+<div id="gameScreen">
+  <div class="game-header">
+    <div class="game-title">🏃 PARTY RUNNER 🏃</div>
+    <div class="game-score">SCORE: <span id="score">0</span></div>
+  </div>
+  <div class="game-track"></div>
+  <div class="runner" id="runner">🕺</div>
+</div>
+
+<!-- Game Over -->
 <div class="game-over" id="gameOver">
   <h1>🎮 GAME OVER!</h1>
   <div class="final-score">Score: <span id="finalScore">0</span></div>
@@ -200,98 +202,311 @@ body { background: #0a0a12; font-family: 'Arial', sans-serif; color: white; over
 </div>
 
 <script>
-var gameOn=false,score=0,highScore=localStorage.getItem('darleyHighScore')||0,items=[],obstacles=[];
-var GOODS=['💊','💉','💰','💵','🍄','🧪','🎂','🎁','💎','🔥'];
-var BADS=['🚧','🪨','👮','💼'];
+var gameOn = false;
+var score = 0;
+var highScore = localStorage.getItem('darleyHighScore') || 0;
+var items = [];
+var obstacles = [];
+var GOODS = ['💊','💉','💰','💵','🍄','🧪','🎂','🎁','💎','🔥'];
+var BADS = ['🚧','🪨','👮','💼'];
 
-document.addEventListener('DOMContentLoaded',function(){
-  for(var i=0;i<50;i++){var s=document.createElement('div');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*70+'%';s.style.animationDelay=Math.random()*2+'s';document.getElementById('stars').appendChild(s);}
-  document.getElementById('highScore').textContent=highScore;updateLeaderboard();
-  document.getElementById('enterBtn').onclick=function(){startFlow();};
+document.addEventListener('DOMContentLoaded', function() {
+  // Create stars
+  for(var i = 0; i < 50; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 70 + '%';
+    s.style.animationDelay = Math.random() * 2 + 's';
+    document.getElementById('stars').appendChild(s);
+  }
+  document.getElementById('highScore').textContent = highScore;
+  updateLeaderboard();
+  
+  document.getElementById('enterBtn').onclick = function() {
+    startFlow();
+  };
 });
 
-function startFlow(){
-  document.getElementById('start').style.display='none';
-  var music=document.getElementById('bgMusic');music.volume=0.8;music.play().catch(function(){});
+function startFlow() {
+  document.getElementById('start').style.display = 'none';
+  var music = document.getElementById('bgMusic');
+  music.volume = 0.8;
+  music.play().catch(function() {});
+  
   document.getElementById('scene-walk').classList.add('active');
-  setTimeout(function(){
+  
+  setTimeout(function() {
     document.getElementById('scene-walk').classList.remove('active');
     document.getElementById('scene-id').classList.add('active');
-    setTimeout(function(){
+    
+    setTimeout(function() {
       document.getElementById('idOk').classList.add('show');
-      setTimeout(function(){
+      
+      setTimeout(function() {
         document.getElementById('scene-id').classList.remove('active');
         startScan();
-      },2000);
-    },1800);
-  },2800);
+      }, 2000);
+    }, 1800);
+  }, 2800);
 }
 
-function startScan(){
+function startScan() {
   document.getElementById('scene-scan').classList.add('active');
-  var sc=['SCANNING...','ANALYZING...','CHECKING...','ALMOST DONE...'];
-  var si=setInterval(function(){document.getElementById('scanStatus').textContent=sc[Math.floor(Math.random()*sc.length)];},600);
-  var items=['💊','💉','🍄','🧪','💰','💵','🍬'];
-  var itemInt=setInterval(function(){
-    var it=document.createElement('span');it.textContent=items[Math.floor(Math.random()*items.length)]+' ';document.getElementById('scanItems').appendChild(it);setTimeout(function(){it.remove();},1500);
-  },200);
-  setTimeout(function(){
-    clearInterval(si);clearInterval(itemInt);
-    document.getElementById('scanStatus').textContent='NO DRUGS FOUND! 😄';
-    document.getElementById('scanStatus').className='scan-status clear';
+  
+  var sc = ['SCANNING...','ANALYZING...','CHECKING...','ALMOST DONE...'];
+  var si = setInterval(function() {
+    document.getElementById('scanStatus').textContent = sc[Math.floor(Math.random() * sc.length)];
+  }, 600);
+  
+  var scanItems = ['💊','💉','🍄','🧪','💰','💵','🍬'];
+  var itemInt = setInterval(function() {
+    var it = document.createElement('span');
+    it.textContent = scanItems[Math.floor(Math.random() * scanItems.length)] + ' ';
+    document.getElementById('scanItems').appendChild(it);
+    setTimeout(function() { it.remove(); }, 1500);
+  }, 200);
+  
+  setTimeout(function() {
+    clearInterval(si);
+    clearInterval(itemInt);
+    document.getElementById('scanStatus').textContent = 'NO DRUGS FOUND! 😄';
+    document.getElementById('scanStatus').className = 'scan-status clear';
     document.getElementById('scanResult').classList.add('show');
     triggerFlash();
-    setTimeout(function(){
+    
+    setTimeout(function() {
       document.getElementById('scene-scan').classList.remove('active');
       startCountdown();
-    },3000);
-  },3500);
+    }, 3000);
+  }, 3500);
 }
 
-function startCountdown(){
+function startCountdown() {
   document.getElementById('countdown').classList.add('active');
-  var n=3;
-  var iv=setInterval(function(){
-    document.getElementById('countNum').textContent=n>0?n:'🎉';
-    document.getElementById('countNum').style.animation='none';document.getElementById('countNum').offsetHeight;document.getElementById('countNum').style.animation='pop 0.5s';
-    if(n===0){clearInterval(iv);document.getElementById('countdown').classList.remove('active');startParty();}
+  var n = 3;
+  var iv = setInterval(function() {
+    document.getElementById('countNum').textContent = n > 0 ? n : '🎉';
+    document.getElementById('countNum').style.animation = 'none';
+    document.getElementById('countNum').offsetHeight;
+    document.getElementById('countNum').style.animation = 'pop 0.5s';
+    
+    if(n === 0) {
+      clearInterval(iv);
+      document.getElementById('countdown').classList.remove('active');
+      startParty();
+    }
     n--;
-  },1100);
+  }, 1100);
 }
 
-function startParty(){
-  setInterval(function(){spawnConfetti(6);},800);
-  setTimeout(function(){document.getElementById('gameBtn').style.display='block';},6000);
+function startParty() {
+  setInterval(function() { spawnConfetti(6); }, 800);
+  setTimeout(function() {
+    document.getElementById('gameBtn').style.display = 'block';
+  }, 6000);
 }
 
-function spawnConfetti(amt){
-  var c=['#ff2d95','#00d4ff','#ffd600','#00ff88','#ff00ff'];
-  for(var i=0;i<amt;i++){
-    setTimeout(function(){
-      var x=document.createElement('div');x.className='confetti';x.style.left=Math.random()*100+'%';x.style.background=c[Math.floor(Math.random()*c.length)];x.style.animationDuration=(2+Math.random()*2)+'s';
-      document.body.appendChild(x);setTimeout(function(){x.remove();},4000);
-    },i*30);
+function spawnConfetti(amt) {
+  var colors = ['#ff2d95','#00d4ff','#ffd600','#00ff88','#ff00ff'];
+  for(var i = 0; i < amt; i++) {
+    setTimeout(function() {
+      var x = document.createElement('div');
+      x.className = 'confetti';
+      x.style.left = Math.random() * 100 + '%';
+      x.style.background = colors[Math.floor(Math.random() * colors.length)];
+      x.style.animationDuration = (2 + Math.random() * 2) + 's';
+      document.body.appendChild(x);
+      setTimeout(function() { x.remove(); }, 4000);
+    }, i * 30);
   }
 }
 
-function triggerFlash(){var f=document.createElement('div');f.className='flash';document.body.appendChild(f);setTimeout(function(){f.remove();},100);if(navigator.vibrate)navigator.vibrate(50);}
+function triggerFlash() {
+  var f = document.createElement('div');
+  f.className = 'flash';
+  document.body.appendChild(f);
+  setTimeout(function() { f.remove(); }, 100);
+  if(navigator.vibrate) navigator.vibrate(50);
+}
 
-document.getElementById('gameBtn').onclick=function(){document.getElementById('gameBtn').style.display='none';document.getElementById('tapHint').style.display='none';startGame();};
+// ============ GAME FUNCTIONS ============
+document.getElementById('gameBtn').onclick = function(e) {
+  e.stopPropagation();
+  startGame();
+};
 
-function startGame(){gameOn=true;score=0;document.getElementById('score').textContent='0';document.getElementById('gameOverlay').classList.add('show');spawnItem();spawnObstacle();moveItems();}
-function spawnItem(){if(!gameOn)return;var it=document.createElement('div');it.className='item';it.textContent=GOODS[Math.floor(Math.random()*GOODS.length)];it.style.left=(5+Math.random()*90)+'%';document.body.appendChild(it);items.push(it);setTimeout(spawnItem,450);}
-function spawnObstacle(){if(!gameOn)return;var ob=document.createElement('div');ob.className='item';ob.textContent=BADS[Math.floor(Math.random()*BADS.length)];ob.style.left=(5+Math.random()*90)+'%';document.body.appendChild(ob);obstacles.push(ob);setTimeout(spawnObstacle,750);}
-function moveItems(){if(!gameOn)return;var r=document.getElementById('runner').getBoundingClientRect();items.forEach(function(it,idx){var ir=it.getBoundingClientRect();if(r.right>ir.left+20&&r.left<ir.right-20&&r.bottom>ir.top+20){var pts={'💊':100,'💉':100,'💰':150,'💵':120,'🍄':80,'🧪':80,'🎂':60,'🎁':60,'💎':120,'🔥':90};score+=pts[it.textContent]||60;document.getElementById('score').textContent=score;showBurst('+'+score);triggerFlash();it.remove();items.splice(idx,1);}});obstacles.forEach(function(ob,idx){var or=ob.getBoundingClientRect();if(r.right>or.left+20&&r.left<or.right-20&&r.bottom>or.top+20){endGame();}});items=items.filter(function(it){return it.getBoundingClientRect().right>0;});obstacles=obstacles.filter(function(ob){return ob.getBoundingClientRect().right>0;});setTimeout(moveItems,18);}
-function doJump(){if(!gameOn)return;var r=document.getElementById('runner');r.classList.add('jump');if(navigator.vibrate)navigator.vibrate(25);setTimeout(function(){r.classList.remove('jump');},500);}
-function showBurst(txt){var b=document.createElement('div');b.className='burst';b.textContent=txt;document.body.appendChild(b);setTimeout(function(){b.remove();},600);}
-function endGame(){gameOn=false;items.forEach(function(t){t.remove();});obstacles.forEach(function(t){t.remove();});items=[];obstacles=[];if(score>highScore){highScore=score;localStorage.setItem('darleyHighScore',highScore);addToLeaderboard(score);}document.getElementById('finalScore').textContent=score;document.getElementById('highScore').textContent=highScore;document.getElementById('gameOver').classList.add('show');updateLeaderboard();triggerFlash();}
-function addToLeaderboard(s){var lb=JSON.parse(localStorage.getItem('darleyLeaderboard')||'[]');lb.push({score:s});lb.sort(function(a,b){return b.score-a.score;});lb=lb.slice(0,5);localStorage.setItem('darleyLeaderboard',JSON.stringify(lb));}
-function updateLeaderboard(){var lb=JSON.parse(localStorage.getItem('darleyLeaderboard')||'[]');var h='';lb.forEach(function(e,i){h+='<li>#'+(i+1)+' — '+e.score+' pts</li>';});if(h==='')h='<li>No scores yet!</li>';document.getElementById('leaderboardList').innerHTML=h;}
-function restartGame(){document.getElementById('gameOver').classList.remove('show');items.forEach(function(t){t.remove();});obstacles.forEach(function(t){t.remove();});items=[];obstacles=[];startGame();}
-function skipGame(){gameOn=false;items.forEach(function(t){t.remove();});obstacles.forEach(function(t){t.remove();});items=[];obstacles=[];document.getElementById('gameOverlay').classList.remove('show');document.getElementById('gameOver').classList.remove('show');document.getElementById('gameBtn').style.display='block';}
-document.getElementById('playAgainBtn').onclick=restartGame;document.getElementById('justPartyBtn').onclick=skipGame;document.getElementById('skipBtn').onclick=skipGame;
-document.addEventListener('click',function(){if(gameOn)doJump();});document.addEventListener('touchstart',function(e){if(gameOn){e.preventDefault();doJump();}},{passive:false});
-document.getElementById('party').addEventListener('click',function(){if(!gameOn)triggerFlash(),spawnConfetti(5);});
+document.getElementById('skipBtn').onclick = function(e) {
+  e.stopPropagation();
+  // Just hide game button, stay in party
+  document.getElementById('gameBtn').style.display = 'none';
+};
+
+function startGame() {
+  gameOn = true;
+  score = 0;
+  document.getElementById('score').textContent = '0';
+  document.getElementById('gameScreen').classList.add('active');
+  document.getElementById('gameBtn').style.display = 'none';
+  document.getElementById('tapHint').style.display = 'none';
+  
+  spawnItem();
+  spawnObstacle();
+  moveItems();
+}
+
+function spawnItem() {
+  if(!gameOn) return;
+  var it = document.createElement('div');
+  it.className = 'item';
+  it.textContent = GOODS[Math.floor(Math.random() * GOODS.length)];
+  it.style.left = (5 + Math.random() * 90) + '%';
+  document.getElementById('gameScreen').appendChild(it);
+  items.push(it);
+  setTimeout(spawnItem, 450);
+}
+
+function spawnObstacle() {
+  if(!gameOn) return;
+  var ob = document.createElement('div');
+  ob.className = 'item';
+  ob.textContent = BADS[Math.floor(Math.random() * BADS.length)];
+  ob.style.left = (5 + Math.random() * 90) + '%';
+  document.getElementById('gameScreen').appendChild(ob);
+  obstacles.push(ob);
+  setTimeout(spawnObstacle, 750);
+}
+
+function moveItems() {
+  if(!gameOn) return;
+  
+  var r = document.getElementById('runner').getBoundingClientRect();
+  
+  // Check items
+  for(var i = items.length - 1; i >= 0; i--) {
+    var it = items[i];
+    var ir = it.getBoundingClientRect();
+    if(r.right > ir.left + 20 && r.left < ir.right - 20 && r.bottom > ir.top + 20) {
+      var pts = {'💊':100,'💉':100,'💰':150,'💵':120,'🍄':80,'🧪':80,'🎂':60,'🎁':60,'💎':120,'🔥':90};
+      score += pts[it.textContent] || 60;
+      document.getElementById('score').textContent = score;
+      showBurst('+' + score);
+      triggerFlash();
+      it.remove();
+      items.splice(i, 1);
+    }
+  }
+  
+  // Check obstacles
+  for(var i = obstacles.length - 1; i >= 0; i--) {
+    var ob = obstacles[i];
+    var obr = ob.getBoundingClientRect();
+    if(r.right > obr.left + 20 && r.left < obr.right - 20 && r.bottom > obr.top + 20) {
+      endGame();
+      return;
+    }
+  }
+  
+  // Cleanup off-screen
+  items = items.filter(function(it) { return it.getBoundingClientRect().right > 0; });
+  obstacles = obstacles.filter(function(ob) { return ob.getBoundingClientRect().right > 0; });
+  
+  setTimeout(moveItems, 18);
+}
+
+function doJump() {
+  if(!gameOn) return;
+  var r = document.getElementById('runner');
+  r.classList.add('jump');
+  if(navigator.vibrate) navigator.vibrate(25);
+  setTimeout(function() { r.classList.remove('jump'); }, 500);
+}
+
+function showBurst(txt) {
+  var b = document.createElement('div');
+  b.className = 'burst';
+  b.textContent = txt;
+  document.body.appendChild(b);
+  setTimeout(function() { b.remove(); }, 600);
+}
+
+function endGame() {
+  gameOn = false;
+  items.forEach(function(t) { t.remove(); });
+  obstacles.forEach(function(t) { t.remove(); });
+  items = [];
+  obstacles = [];
+  
+  if(score > highScore) {
+    highScore = score;
+    localStorage.setItem('darleyHighScore', highScore);
+    addToLeaderboard(score);
+  }
+  
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('highScore').textContent = highScore;
+  document.getElementById('gameOver').classList.add('show');
+  updateLeaderboard();
+  triggerFlash();
+}
+
+function addToLeaderboard(s) {
+  var lb = JSON.parse(localStorage.getItem('darleyLeaderboard') || '[]');
+  lb.push({score: s});
+  lb.sort(function(a, b) { return b.score - a.score; });
+  lb = lb.slice(0, 5);
+  localStorage.setItem('darleyLeaderboard', JSON.stringify(lb));
+}
+
+function updateLeaderboard() {
+  var lb = JSON.parse(localStorage.getItem('darleyLeaderboard') || '[]');
+  var html = '';
+  lb.forEach(function(e, i) {
+    html += '<li>#' + (i+1) + ' — ' + e.score + ' pts</li>';
+  });
+  if(html === '') html = '<li>No scores yet!</li>';
+  document.getElementById('leaderboardList').innerHTML = html;
+}
+
+function restartGame() {
+  document.getElementById('gameOver').classList.remove('show');
+  items.forEach(function(t) { t.remove(); });
+  obstacles.forEach(function(t) { t.remove(); });
+  items = [];
+  obstacles = [];
+  startGame();
+}
+
+function skipToParty() {
+  gameOn = false;
+  items.forEach(function(t) { t.remove(); });
+  obstacles.forEach(function(t) { t.remove(); });
+  items = [];
+  obstacles = [];
+  document.getElementById('gameScreen').classList.remove('active');
+  document.getElementById('gameOver').classList.remove('show');
+  document.getElementById('gameBtn').style.display = 'none';
+}
+
+// Button handlers
+document.getElementById('playAgainBtn').onclick = restartGame;
+document.getElementById('justPartyBtn').onclick = skipToParty;
+
+// Game controls
+document.addEventListener('click', function() {
+  if(gameOn) doJump();
+});
+document.addEventListener('touchstart', function(e) {
+  if(gameOn) { e.preventDefault(); doJump(); }
+}, {passive: false});
+
+// Party tap for confetti
+document.getElementById('party').addEventListener('click', function(e) {
+  if(!gameOn) {
+    triggerFlash();
+    spawnConfetti(5);
+  }
+});
 </script>
 </body>
 </html>
