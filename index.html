@@ -617,12 +617,21 @@ body {
 <audio id="bgMusic" src="birthday-song.mp3" preload="auto" loop></audio>
 
 <!-- START SCREEN -->
-<div id="start-screen" onclick="startTheFlow()">
-  <div class="s-cake">🎂</div>
+<div id="start-screen">
+  <div class="s-cake" onclick="alert('tap works!')">🎂</div>
   <div class="s-title">CLUB 25</div>
   <div class="s-sub">DARLEY'S BIRTHDAY</div>
-  <div class="btn-tap" id="enterBtn">👆 TAP TO ENTER 👆</div>
+  <button class="btn-tap" id="enterBtn">👆 TAP TO ENTER 👆</button>
 </div>
+
+<script>
+document.getElementById('enterBtn').addEventListener('touchstart', function() {
+  alert('tapped!');
+});
+document.getElementById('enterBtn').addEventListener('click', function() {
+  startTheFlow();
+});
+</script>
 
 <!-- WALKING SCENE -->
 <div id="scene-walk" class="scene">
