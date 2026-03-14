@@ -621,7 +621,7 @@ body {
   <div class="s-cake">🎂</div>
   <div class="s-title">CLUB 25</div>
   <div class="s-sub">DARLEY'S BIRTHDAY</div>
-  <button class="btn-tap" id="enterBtn" onclick="enterClicked(event)">👆 TAP TO ENTER 👆</button>
+  <button class="btn-tap" id="enterBtn" onclick="startTheFlow()">👆 TAP TO ENTER 👆</button>
 </div>
 
 <!-- WALKING SCENE -->
@@ -727,29 +727,31 @@ function enterClicked(e) {
   doEnter();
 }
 
-function doEnter() {
+function doEnter() {}
+
+function startTheFlow() {
   document.getElementById('start-screen').classList.add('hidden');
-  
-  // Play music
-  const music = document.getElementById('bgMusic');
-  music.volume = 0.8;
-  music.play().catch(() => {});
-  
-  // Start walk scene
+  try { document.getElementById('bgMusic').play(); } catch(e) {}
   document.getElementById('scene-walk').classList.add('active');
-  
   setTimeout(function() {
     document.getElementById('scene-walk').classList.remove('active');
     document.getElementById('scene-id').classList.add('active');
-    
     setTimeout(function() {
       document.getElementById('idOk').classList.add('show');
-      
       setTimeout(function() {
         document.getElementById('scene-id').classList.remove('active');
-        startDrugScan();
-      }, 1800);
-    }, 1500);
+        document.getElementById('scene-drugscan').classList.add('active');
+        setTimeout(function() {
+          document.getElementById('drugStatusText').textContent = 'ALL CLEAR!';
+          document.getElementById('drugResult').classList.add('show');
+          setTimeout(function() {
+            document.getElementById('scene-drugscan').classList.remove('active');
+            document.getElementById('raveWorld').classList.add('on');
+            startCountdown();
+          }, 2000);
+        }, 3000);
+      }, 1500);
+    }, 2000);
   }, 2500);
 }
 
