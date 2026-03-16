@@ -350,9 +350,14 @@ function startGame() {
   document.getElementById('gameBtn').style.display = 'none';
   document.getElementById('tapHint').style.display = 'none';
   
-  spawnGameItem();
-  spawnGameObstacle();
-  moveGameItems();
+  // Delay first obstacle by 1.5 seconds to give player time
+  setTimeout(function() {
+    if(gameOn) {
+      spawnGameItem();
+      spawnGameObstacle();
+      moveGameItems();
+    }
+  }, 1500);
 }
 
 function spawnGameItem() {
@@ -360,7 +365,7 @@ function spawnGameItem() {
   var it = document.createElement('div');
   it.className = 'item';
   it.textContent = GOODS[Math.floor(Math.random() * GOODS.length)];
-  it.style.left = (5 + Math.random() * 90) + '%';
+  it.style.left = (30 + Math.random() * 65) + '%'; // Start at 30% to avoid instant collection
   document.getElementById('gameScreen').appendChild(it);
   gameItems.push(it);
   setTimeout(spawnGameItem, 450);
@@ -371,7 +376,7 @@ function spawnGameObstacle() {
   var ob = document.createElement('div');
   ob.className = 'item';
   ob.textContent = BADS[Math.floor(Math.random() * BADS.length)];
-  ob.style.left = (5 + Math.random() * 90) + '%';
+  ob.style.left = (30 + Math.random() * 65) + '%'; // Start at 30% to avoid instant collision
   document.getElementById('gameScreen').appendChild(ob);
   gameObstacles.push(ob);
   setTimeout(spawnGameObstacle, 750);
