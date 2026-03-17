@@ -116,11 +116,11 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
 
 <audio id="bgMusic" src="birthday-song.mp3" preload loop></audio>
 
-<div id="start">
+<div id="start" onclick="startFlow()" style="cursor:pointer">
   <div class="cake">🎂</div>
   <div class="title">CLUB 25</div>
   <div class="subtitle">DARLEY'S BIRTHDAY</div>
-  <button class="enterBtn" id="enterBtn">👆 TAP TO ENTER 👆</button>
+  <button class="enterBtn" id="enterBtn" onclick="event.stopPropagation();startFlow()">👆 TAP TO ENTER 👆</button>
 </div>
 
 <div id="scene-walk" class="scene">
@@ -258,6 +258,7 @@ document.getElementById('enterBtn').onclick = function() {
 
 function startFlow() {
   document.getElementById('start').style.display = 'none';
+  document.getElementById('start').classList.add('hidden');
   var music = document.getElementById('bgMusic');
   music.volume = 0.8;
   music.play().catch(function(){});
