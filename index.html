@@ -769,16 +769,16 @@ function saveScore() {
   var savedScores = JSON.parse(localStorage.getItem('flappyScores') || '[]');
   savedScores.push({name: name.toUpperCase(), score: flappyScore, date: new Date().toISOString()});
   localStorage.setItem('flappyScores', JSON.stringify(savedScores));
-  
-  // Open Google Form to submit score globally
-  var formUrl = 'https://docs.google.com/forms/d/e/155URWgYdyOgKXkJG9A3e6X3CWEFIE00WkgZvvRg-q6M/viewform?usp=pp_url&entry.2005620554=' + encodeURIComponent(name) + '&entry.104549129=' + flappyScore;
-  window.open(formUrl, '_blank');
-  
-  alert('Score saved! 🎉 Check the leaderboard at the party!');
+  alert('Score saved! 🎉 Your score: ' + flappyScore);
   loadLeaderboard();
 }
 
 document.getElementById('saveScoreBtn').onclick = saveScore;
+document.getElementById('saveScoreBtn').ontouchstart = function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  saveScore();
+};
 document.getElementById('playerName').onkeypress = function(e) {
   if(e.key === 'Enter') saveScore();
 };
@@ -825,10 +825,17 @@ document.getElementById('flappyReplayBtn').onclick = function() {
   flappyVelocity = 0;
   flappyScore = 0;
   flappyPipes = [];
+  flappyOn = false;
   document.getElementById('flappyScore').textContent = '0';
-  document.getElementById('flappyStart').style.display = 'block';
   document.getElementById('flappyGameOver').style.display = 'none';
-  document.getElementById('flappyGame').classList.add('active');
+  document.getElementById('flappyStart').style.display = 'block';
+  drawFlappy();
+};
+
+document.getElementById('flappyReplayBtn').ontouchstart = function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  document.getElementById('flappyReplayBtn').click();
 };
 
 document.getElementById('flappyBackBtn').onclick = function() {
@@ -836,6 +843,13 @@ document.getElementById('flappyBackBtn').onclick = function() {
   if(flappyLoop) cancelAnimationFrame(flappyLoop);
   document.getElementById('flappyGame').style.display = 'none';
   document.getElementById('party').classList.add('active');
+  document.getElementById('party').style.display = 'block';
+};
+
+document.getElementById('flappyBackBtn').ontouchstart = function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  document.getElementById('flappyBackBtn').click();
 };
 
 // Handle resize
