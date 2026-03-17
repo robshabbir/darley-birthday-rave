@@ -551,6 +551,8 @@ var flappyBirdY, flappyVelocity;
 var flappyPipes = [];
 var flappyLoop = null;
 var flappyCtx = null;
+var flappyBirdImg = new Image();
+flappyBirdImg.src = 'darley-photo.jpg';
 
 document.getElementById('flappyBtn').onclick = function() {
   document.getElementById('flappyGame').style.display = 'block';
@@ -572,16 +574,6 @@ function initFlappyGame() {
   document.getElementById('flappyGameOver').style.display = 'none';
   drawFlappy();
 }
-
-document.getElementById('flappyStartBtn').onclick = function() {
-  document.getElementById('flappyStart').style.display = 'none';
-  document.getElementById('flappyScore').style.display = 'block';
-  flappyOn = true;
-  flappyBirdY = document.getElementById('flappyCanvas').height / 2;
-  flappyVelocity = 0;
-  flappyLoop = requestAnimationFrame(updateFlappy);
-  setInterval(addFlappyPipe, 1500);
-};
 
 function addFlappyPipe() {
   if(!flappyOn) return;
@@ -609,20 +601,25 @@ function updateFlappy() {
   flappyVelocity += 0.5;
   flappyBirdY += flappyVelocity;
   
-  // Draw Darley face (yellow circle as fallback)
-  flappyCtx.fillStyle = '#FFD700';
-  flappyCtx.beginPath();
-  flappyCtx.arc(canvas.width / 4, flappyBirdY, 25, 0, Math.PI * 2);
-  flappyCtx.fill();
-  // Draw face
-  flappyCtx.fillStyle = '#000';
-  flappyCtx.beginPath();
-  flappyCtx.arc(canvas.width / 4 - 8, flappyBirdY - 5, 4, 0, Math.PI * 2);
-  flappyCtx.arc(canvas.width / 4 + 8, flappyBirdY - 5, 4, 0, Math.PI * 2);
-  flappyCtx.fill();
-  flappyCtx.beginPath();
-  flappyCtx.arc(canvas.width / 4, flappyBirdY + 8, 10, 0, Math.PI);
-  flappyCtx.stroke();
+  // Draw Darley's photo as the bird
+  if (flappyBirdImg.complete && flappyBirdImg.naturalWidth > 0) {
+    flappyCtx.drawImage(flappyBirdImg, canvas.width / 4 - 25, flappyBirdY - 25, 50, 50);
+  } else {
+    // Fallback to yellow circle
+    flappyCtx.fillStyle = '#FFD700';
+    flappyCtx.beginPath();
+    flappyCtx.arc(canvas.width / 4, flappyBirdY, 25, 0, Math.PI * 2);
+    flappyCtx.fill();
+    // Draw face
+    flappyCtx.fillStyle = '#000';
+    flappyCtx.beginPath();
+    flappyCtx.arc(canvas.width / 4 - 8, flappyBirdY - 5, 4, 0, Math.PI * 2);
+    flappyCtx.arc(canvas.width / 4 + 8, flappyBirdY - 5, 4, 0, Math.PI * 2);
+    flappyCtx.fill();
+    flappyCtx.beginPath();
+    flappyCtx.arc(canvas.width / 4, flappyBirdY + 8, 10, 0, Math.PI);
+    flappyCtx.stroke();
+  }
   
   // Move and draw pipes
   for(var i = flappyPipes.length - 1; i >= 0; i--) {
@@ -680,12 +677,29 @@ function drawFlappy() {
 }
 
 // Tap to fly
-document.getElementById('flappyGame').onclick = function() {
+document.getElementById('flappyGame').onclick = function(e) {
+  e.preventDefault();
   if(flappyOn) flappyVelocity = -10;
 };
 document.getElementById('flappyGame').ontouchstart = function(e) {
   e.preventDefault();
   if(flappyOn) flappyVelocity = -10;
+};
+
+// Also handle START button touch
+document.getElementById('flappyStartBtn').onclick = function() {
+  document.getElementById('flappyStart').style.display = 'none';
+  document.getElementById('flappyScore').style.display = 'block';
+  flappyOn = true;
+  flappyBirdY = document.getElementById('flappyCanvas').height / 2;
+  flappyVelocity = 0;
+  flappyLoop = requestAnimationFrame(updateFlappy);
+  setInterval(addFlappyPipe, 1500);
+};
+document.getElementById('flappyStartBtn').ontouchstart = function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  document.getElementById('flappyStartBtn').click();
 };
 
 document.getElementById('flappyReplayBtn').onclick = function() {
