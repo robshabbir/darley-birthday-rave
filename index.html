@@ -741,11 +741,16 @@ function flappyGameOver() {
 function loadLeaderboard() {
   // Get scores from localStorage + default top scores
   var defaultScores = [
-    {name: 'DARLEY', score: 25},
-    {name: 'BFF', score: 18},
-    {name: 'BESTIE', score: 15},
-    {name: 'PARTY', score: 12},
-    {name: 'RAVE', score: 10}
+    {name: 'DARLEY', score: 42},
+    {name: 'PARTY QUEEN', score: 38},
+    {name: 'BIRTHDAY GIRL', score: 35},
+    {name: 'BESTIE 💕', score: 28},
+    {name: 'RAVE KING', score: 25},
+    {name: 'CLUB 25', score: 22},
+    {name: 'NIGHT OWL', score: 18},
+    {name: 'DANCE FLOOR', score: 15},
+    {name: 'VIP', score: 12},
+    {name: 'GUEST', score: 10}
   ];
   var savedScores = JSON.parse(localStorage.getItem('flappyScores') || '[]');
   var allScores = defaultScores.concat(savedScores).sort(function(a,b) { return b.score - a.score; });
