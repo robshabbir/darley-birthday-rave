@@ -73,9 +73,13 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
 .star{position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;animation:twinkle 2s infinite}
 @keyframes twinkle{0%,100%{opacity:0.3}50%{opacity:1}}
 .darley-top{position:absolute;top:5%;left:50%;transform:translateX(-50%);z-index:100;text-align:center}
-.darley-face{width:clamp(140px,40vw,200px);height:clamp(140px,40vw,200px);border-radius:50%;border:6px solid #fff;box-shadow:0 0 40px #ff2d95,0 0 80px #00d4ff;overflow:hidden;animation:faceDance 0.3s infinite alternate}
+.darley-face{width:clamp(140px,40vw,200px);height:clamp(140px,40vw,200px);border-radius:50%;border:6px solid #fff;box-shadow:0 0 40px #ff2d95,0 0 80px #00d4ff;overflow:hidden;animation:faceDance 0.3s infinite alternate;position:relative}
 @keyframes faceDance{from{transform:scale(1)}to{transform:scale(1.05)}}
 .darley-face img{width:100%;height:100%;object-fit:cover}
+.sunglasses{position:absolute;top:28%;left:50%;transform:translateX(-50%);font-size:clamp(45px,11vw,65px);z-index:10;filter:drop-shadow(2px 2px 3px rgba(0,0,0,0.8))}
+.cigarette{position:absolute;bottom:12%;left:55%;transform:translateX(-50%) rotate(10deg);font-size:clamp(22px,5vw,32px);z-index:11}
+.smoke{position:absolute;top:-20px;left:5px;font-size:clamp(18px,4vw,25px);animation:smokeRise 1s infinite;opacity:0.8}
+@keyframes smokeRise{0%{transform:translateY(0)scale(1);opacity:0.9}100%{transform:translateY(-30px)scale(1.5);opacity:0}}
 .bday-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,6vw,3rem);color:#fff;text-shadow:0 0 30px #ff2d95;margin-top:10px}
 .confetti{position:fixed;width:10px;height:10px;top:-20px;animation:confettiFall 3s linear forwards;z-index:60}
 @keyframes confettiFall{0%{transform:translateY(0)rotate(0deg);opacity:1}100%{transform:translateY(110vh)rotate(720deg);opacity:0}}
@@ -170,6 +174,8 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
   <div class="darley-top">
     <div class="darley-face">
       <img src="darley-photo.jpg" alt="Darley">
+      <div class="sunglasses">🕶️</div>
+      <div class="cigarette">🚬<span class="smoke">💨</span></div>
     </div>
     <div class="bday-title">🎉 HAPPY 25TH BIRTHDAY DARLEY! 🎉</div>
   </div>
@@ -268,7 +274,7 @@ function startFlow() {
     document.getElementById('scene-walk').classList.remove('active');
     document.getElementById('scene-id').classList.add('active');
     // RAVE CONFETTI during ID check!
-    var idConfetti = setInterval(function() { spawnConfetti(8); }, 300);
+    var idConfetti = setInterval(function() { spawnConfetti(8); spawnFallingDrugs(); }, 300);
     setTimeout(function() {
       document.getElementById('idOk').classList.add('show');
       setTimeout(function() {
@@ -283,7 +289,7 @@ function startFlow() {
 function startScan() {
   document.getElementById('scene-scan').classList.add('active');
   // RAVE CONFETTI during scan!
-  var scanConfetti = setInterval(function() { spawnConfetti(8); }, 300);
+  var scanConfetti = setInterval(function() { spawnConfetti(8); spawnFallingDrugs(); }, 300);
   
   var statuses = ['SCANNING...','ANALYZING...','CHECKING...','ALMOST DONE...'];
   var si = setInterval(function() {
@@ -329,8 +335,9 @@ function startCountdown() {
     document.getElementById('countNum').style.animation = 'none';
     document.getElementById('countNum').offsetHeight;
     document.getElementById('countNum').style.animation = 'pop 0.5s';
-    // Extra confetti during countdown!
+    // Extra confetti and drugs during countdown!
     spawnConfetti(5);
+    spawnFallingDrugs();
     if(n === 0) {
       clearInterval(iv);
       document.getElementById('countdown').classList.remove('active');
@@ -349,18 +356,60 @@ function startParty() {
 
 function spawnConfetti(amt) {
   var colors = ['#ff2d95','#00d4ff','#ffd600','#00ff88','#ff00ff'];
+  var items = ['💊','💉','🍄','🧪','💰','💵','✨','🔥','🎆','🎇','⭐','💫'];
   for(var i=0; i<amt; i++) {
     setTimeout(function() {
       var x = document.createElement('div');
       x.className = 'confetti';
+      // 30% chance to be an emoji instead of color
+      if(Math.random() < 0.3) {
+        x.textContent = items[Math.floor(Math.random() * items.length)];
+        x.style.fontSize = (15 + Math.random() * 15) + 'px';
+        x.style.background = 'transparent';
+      } else {
+        x.style.left = Math.random() * 100 + '%';
+        x.style.background = colors[Math.floor(Math.random() * colors.length)];
+      }
       x.style.left = Math.random() * 100 + '%';
-      x.style.background = colors[Math.floor(Math.random() * colors.length)];
       x.style.animationDuration = (2 + Math.random() * 2) + 's';
       document.body.appendChild(x);
       setTimeout(function() { x.remove(); }, 4000);
     }, i * 30);
   }
 }
+
+// Rave drugs falling from sky!
+function spawnFallingDrugs() {
+  var drugs = ['💊','💉','🍄','🧪','💰','💵','✨','🧉','🎆'];
+  for(var i=0; i<15; i++) {
+    setTimeout(function() {
+      var d = document.createElement('div');
+      d.className = 'falling-drug';
+      d.textContent = drugs[Math.floor(Math.random() * drugs.length)];
+      d.style.left = Math.random() * 100 + '%';
+      d.style.fontSize = (20 + Math.random() * 20) + 'px';
+      d.style.animation = 'fallDown ' + (3 + Math.random() * 2) + 's linear forwards';
+      document.body.appendChild(d);
+      setTimeout(function() { d.remove(); }, 5000);
+    }, i * 100);
+  }
+}
+
+// Add CSS for falling drugs
+var style = document.createElement('style');
+style.textContent = `
+@keyframes fallDown {
+  0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+.falling-drug {
+  position: fixed;
+  top: -50px;
+  z-index: 50;
+  animation: fallDown 3s linear forwards;
+}
+`;
+document.head.appendChild(style);
 
 function triggerFlash() {
   var f = document.createElement('div');
