@@ -775,6 +775,12 @@ function saveScore() {
   btn.textContent = '✅ SAVED!';
   btn.style.background = '#00ff88';
   
+  // Open Google Form in new tab to submit globally (manual)
+  // Replace this URL with your Google Form URL
+  var formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdYOUR_FORM_ID/viewform?usp=pp_url&entry.123456=' + encodeURIComponent(name) + '&entry.789012=' + flappyScore;
+  // For now, just show the message. To enable global leaderboard, add your Google Form URL above
+  // window.open(formUrl, '_blank');
+  
   setTimeout(function() {
     btn.textContent = '💾 SAVE SCORE';
     btn.style.background = '#00ff88';
