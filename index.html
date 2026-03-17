@@ -111,13 +111,13 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
 .fader{width:20px;height:4px;background:#666;border-radius:2px}
 .knob{width:8px;height:8px;background:#888;border-radius:50%}
 
-/* Buttons container */
-.party-buttons{display:flex;flex-direction:column;align-items:center;gap:12px;position:absolute;bottom:25%;left:50%;transform:translateX(-50%);z-index:120;width:80%;max-width:350px}
+/* Buttons container - side by side like Apple */
+.party-buttons{display:flex;flex-direction:row;justify-content:center;gap:15px;position:absolute;bottom:25%;left:50%;transform:translateX(-50%);z-index:120;width:90%;max-width:500px}
 
-.confetti-btn{padding:16px 30px;font-size:1.1rem;font-weight:bold;background:linear-gradient(135deg,#ff6b00,#ff00ff);border:none;border-radius:30px;color:#fff;box-shadow:0 4px 20px rgba(255,107,0,0.5);cursor:pointer;width:100%}
+.confetti-btn{padding:14px 24px;font-size:0.95rem;font-weight:600;background:linear-gradient(135deg,#ff6b00,#ff00ff);border:none;border-radius:25px;color:#fff;box-shadow:0 4px 15px rgba(255,107,0,0.4);cursor:pointer;flex:1}
 .confetti-btn:active{transform:scale(0.97)}
 
-.game-btn{padding:16px 30px;font-size:1.1rem;font-weight:bold;background:linear-gradient(135deg,#ff2d95,#00d4ff);border:none;border-radius:30px;color:#fff;box-shadow:0 4px 20px rgba(255,45,149,0.5);animation:pulse 1.5s infinite;width:100%}
+.game-btn{padding:14px 24px;font-size:0.95rem;font-weight:600;background:linear-gradient(135deg,#ff2d95,#00d4ff);border:none;border-radius:25px;color:#fff;box-shadow:0 4px 15px rgba(255,45,149,0.4);animation:pulse 1.5s infinite;flex:1}
 
 .stars{position:absolute;inset:0}
 .star{position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;animation:twinkle 2s infinite}
