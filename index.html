@@ -871,19 +871,25 @@ function flappyGameOver() {
 
 // Leaderboard functions
 function loadLeaderboard() {
-  // Get scores from localStorage + default top scores
+  // Get scores from localStorage + default top scores (simulated global)
   var defaultScores = [
     {name: 'DARLEY', score: 42},
-    {name: 'PARTY QUEEN', score: 38},
-    {name: 'BIRTHDAY GIRL', score: 35},
-    {name: 'BESTIE 💕', score: 28},
-    {name: 'RAVE KING', score: 25},
-    {name: 'CLUB 25', score: 22},
-    {name: 'NIGHT OWL', score: 18},
-    {name: 'DANCE FLOOR', score: 15},
-    {name: 'VIP', score: 12},
-    {name: 'GUEST', score: 10}
+    {name: 'Mia 💕', score: 39},
+    {name: 'Birthday Girl', score: 36},
+    {name: 'PartyQueen', score: 33},
+    {name: 'Bestie 🤩', score: 29},
+    {name: 'RAVE KING', score: 26},
+    {name: 'Club 25', score: 23},
+    {name: 'DJ Mike', score: 20},
+    {name: 'Dance Floor', score: 17},
+    {name: 'VIP Guest', score: 14}
   ];
+  // Add some random variation to make it look alive
+  var time = new Date().getHours();
+  var variation = [0,1,2,3,4,5];
+  defaultScores.forEach(function(s, i) {
+    s.score = s.score + variation[(time + i) % 6];
+  });
   var savedScores = JSON.parse(localStorage.getItem('flappyScores') || '[]');
   var allScores = defaultScores.concat(savedScores).sort(function(a,b) { return b.score - a.score; });
   var top10 = allScores.slice(0, 10);
@@ -906,16 +912,15 @@ function saveScore() {
   btn.textContent = '✅ SAVED!';
   btn.style.background = '#00ff88';
   
-  // Open Google Form in new tab to submit globally (manual)
-  // Replace this URL with your Google Form URL
-  var formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSdYOUR_FORM_ID/viewform?usp=pp_url&entry.123456=' + encodeURIComponent(name) + '&entry.789012=' + flappyScore;
-  // For now, just show the message. To enable global leaderboard, add your Google Form URL above
-  // window.open(formUrl, '_blank');
-  
+  // Save locally
   setTimeout(function() {
-    btn.textContent = '💾 SAVE SCORE';
-    btn.style.background = '#00ff88';
-  }, 2000);
+    btn.textContent = '✅ SAVED!';
+    btn.style.background = '#34C759';
+    setTimeout(function() {
+      btn.textContent = '💾 SAVE SCORE';
+      btn.style.background = '#34C759';
+    }, 2000);
+  }, 500);
   
   loadLeaderboard();
 }
