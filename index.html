@@ -944,15 +944,23 @@ function drawFlappy() {
   flappyCtx.fillRect(0, canvas.height - 50, canvas.width, 50);
 }
 
-// Tap to fly
-document.getElementById('flappyGame').onclick = function(e) {
+// Tap to fly - improved for mobile
+function handleFlappyTap(e) {
   e.preventDefault();
-  if(flappyOn) flappyVelocity = -10;
-};
-document.getElementById('flappyGame').ontouchstart = function(e) {
-  e.preventDefault();
-  if(flappyOn) flappyVelocity = -10;
-};
+  e.stopPropagation();
+  if(flappyOn) {
+    flappyVelocity = -10;
+    // Visual feedback
+    var canvas = document.getElementById('flappyCanvas');
+    canvas.style.transform = 'scale(1.02)';
+    setTimeout(function() { canvas.style.transform = 'scale(1)'; }, 100);
+  }
+}
+
+document.getElementById('flappyGame').onclick = handleFlappyTap;
+document.getElementById('flappyGame').ontouchstart = handleFlappyTap;
+document.getElementById('flappyCanvas').onclick = handleFlappyTap;
+document.getElementById('flappyCanvas').ontouchstart = handleFlappyTap;
 
 // Also handle START button touch
 document.getElementById('flappyStartBtn').onclick = function() {
