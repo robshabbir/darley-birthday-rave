@@ -111,13 +111,14 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
 .fader{width:20px;height:4px;background:#666;border-radius:2px}
 .knob{width:8px;height:8px;background:#888;border-radius:50%}
 
-/* Buttons container - side by side like Apple */
-.party-buttons{display:flex;flex-direction:row;justify-content:center;gap:15px;position:absolute;bottom:25%;left:50%;transform:translateX(-50%);z-index:120;width:90%;max-width:500px}
+/* Buttons container - Apple quality side by side */
+.party-buttons{display:flex;flex-direction:row;justify-content:center;gap:12px;position:absolute;bottom:25%;left:50%;transform:translateX(-50%);z-index:120;width:85%;max-width:400px}
 
-.confetti-btn{padding:14px 24px;font-size:0.95rem;font-weight:600;background:linear-gradient(135deg,#ff6b00,#ff00ff);border:none;border-radius:25px;color:#fff;box-shadow:0 4px 15px rgba(255,107,0,0.4);cursor:pointer;flex:1}
-.confetti-btn:active{transform:scale(0.97)}
+.action-btn{padding:16px 20px;font-size:1rem;font-weight:600;background:linear-gradient(180deg,#3a3a3a,#1a1a1a);border:none;border-radius:14px;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.1);cursor:pointer;flex:1;transition:all 0.2s ease}
+.action-btn:active{transform:scale(0.96);box-shadow:0 1px 4px rgba(0,0,0,0.3)}
 
-.game-btn{padding:14px 24px;font-size:0.95rem;font-weight:600;background:linear-gradient(135deg,#ff2d95,#00d4ff);border:none;border-radius:25px;color:#fff;box-shadow:0 4px 15px rgba(255,45,149,0.4);animation:pulse 1.5s infinite;flex:1}
+.confetti-btn{background:linear-gradient(180deg,#FF9500,#FF6B00)}
+.game-btn{background:linear-gradient(180deg,#FF2D55,#C71F3A)}
 
 .stars{position:absolute;inset:0}
 .star{position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;animation:twinkle 2s infinite}
@@ -283,8 +284,8 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
   <div class="tap-hint" id="tapHint">👆 TAP ANYWHERE FOR CONFETTI! 👆</div>
   
   <div class="party-buttons">
-    <button class="confetti-btn" id="confettiBtn">🎆 CRAZY CONFETTI! 🎆</button>
-    <button class="game-btn" id="gameBtn">🎮 TAP TO PLAY! 🎮</button>
+    <button class="action-btn confetti-btn" id="confettiBtn">🎆 CONFETTI</button>
+    <button class="action-btn game-btn" id="gameBtn">🎮 PLAY GAME</button>
   </div>
 </div>
 
@@ -528,14 +529,17 @@ function triggerFlash() {
 }
 
 // ===== GAME FUNCTIONS =====
+// Game button launches Flappy Darley
 document.getElementById('gameBtn').onclick = function(e) {
   e.stopPropagation();
-  startGame();
+  document.getElementById('flappyGame').style.display = 'block';
+  initFlappyGame();
 };
 document.getElementById('gameBtn').ontouchstart = function(e) {
   e.preventDefault();
   e.stopPropagation();
-  startGame();
+  document.getElementById('flappyGame').style.display = 'block';
+  initFlappyGame();
 };
 
 // Crazy confetti button
