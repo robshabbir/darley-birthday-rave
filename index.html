@@ -71,28 +71,53 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
 @keyframes floorBeat{0%,100%{filter:brightness(1.3)}50%{filter:brightness(2)}}
 
 /* DJ Booth */
-.dj-booth{position:absolute;bottom:1%;left:50%;transform:translateX(-50%);z-index:80;text-align:center}
+.dj-booth{position:absolute;bottom:0;left:50%;transform:translateX(-50%);z-index:80;text-align:center;width:100%}
 
-/* Buttons container - stacked on mobile */
-.party-buttons{display:flex;flex-direction:column;align-items:center;gap:12px;position:absolute;bottom:20%;left:50%;transform:translateX(-50%);z-index:120;width:80%;max-width:350px}
+.dj-table{display:flex;flex-direction:column;align-items:center}
+
+/* Realistic DJ */
+.dj{display:flex;flex-direction:column;align-items:center;margin-bottom:-5px}
+.dj-head{position:relative;width:60px;height:60px;background:linear-gradient(135deg,#8B4513,#4a2210);border-radius:50%;box-shadow:0 0 20px #ff00ff,0 0 40px #00ffff;animation:glowPulse 1s infinite alternate}
+@keyframes glowPulse{from{box-shadow:0 0 15px #ff00ff,0 0 30px #00ffff}to{box-shadow:0 0 25px #ff00ff,0 0 50px #00ffff}}
+.dj-face{position:relative;width:100%;height:100%;border-radius:50%}
+.dj-hair{position:absolute;top:-5px;left:-5px;right:-5px;height:25px;background:#1a0a00;border-radius:50% 50% 0 0}
+.dj-eyes{display:flex;justify-content:space-around;padding-top:18px}
+.eye{width:10px;height:10px;background:#fff;border-radius:50%;position:relative}
+.eye::after{content:'';position:absolute;width:5px;height:5px;background:#000;border-radius:50%;top:2px;right:2px}
+.dj-mouth{width:20px;height:8px;background:#333;border-radius:0 0 10px 10px;margin:8px auto 0}
+.dj-headphones{position:absolute;top:-8px;width:20px;height:30px;background:#111;border-radius:10px}
+.dj-headphones.left{left:-15px}
+.dj-headphones.right{right:-15px}
+.dj-torso{position:relative;display:flex;justify-content:center;margin-top:-5px}
+.dj-shirt{width:50px;height:40px;background:linear-gradient(180deg,#1a1a2e,#0f0f1a);border-radius:10px 10px 0 0;display:flex;align-items:center;justify-content:center;box-shadow:0 0 15px #ff00ff}
+.dj-logo{font-size:14px;font-weight:bold;color:#00ffff;text-shadow:0 0 5px #00ffff}
+
+/* DJ Arms */
+.dj-arm{position:absolute;top:5px;width:12px;height:35px;background:#8B4513;border-radius:5px}
+.dj-arm.left-arm{left:-25px;transform-origin:top center;animation:leftArmMove 0.4s infinite alternate}
+.dj-arm.right-arm{right:-25px;transform-origin:top center;animation:rightArmMove 0.4s infinite alternate}
+@keyframes leftArmMove{from{transform:rotate(-15deg)}to{transform:rotate(25deg)}}
+@keyframes rightArmMove{from{transform:rotate(-25deg)}to{transform:rotate(15deg)}}
+.arm-lower{position:absolute;bottom:-20px;left:0;width:12px;height:22px;background:#8B4513;border-radius:5px}
+.hand{position:absolute;bottom:-12px;left:-5px;width:22px;height:15px;background:#deb887;border-radius:5px 5px 10px 10px;box-shadow:0 0 10px #ff00ff}
+
+/* Decks */
+.dj-decks{display:flex;gap:10px;align-items:end}
+.turntable{width:40px;height:40px;background:#222;border-radius:50%;position:relative;box-shadow:0 0 10px #00ffff}
+.vinyl{width:100%;height:100%;background:conic-gradient(#111 0deg,#333 60deg,#111 120deg,#333 180deg,#111 240deg,#333 300deg,#111 360deg);border-radius:50%;animation:spin 2s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.tonearm{position:absolute;top:5px;right:5px;width:3px;height:15px;background:#888;transform:rotate(-30deg);transform-origin:top}
+.mixer{width:30px;height:35px;background:#333;border-radius:5px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:3px;box-shadow:0 0 8px #ff00ff}
+.fader{width:20px;height:4px;background:#666;border-radius:2px}
+.knob{width:8px;height:8px;background:#888;border-radius:50%}
+
+/* Buttons container */
+.party-buttons{display:flex;flex-direction:column;align-items:center;gap:12px;position:absolute;bottom:25%;left:50%;transform:translateX(-50%);z-index:120;width:80%;max-width:350px}
 
 .confetti-btn{padding:16px 30px;font-size:1.1rem;font-weight:bold;background:linear-gradient(135deg,#ff6b00,#ff00ff);border:none;border-radius:30px;color:#fff;box-shadow:0 4px 20px rgba(255,107,0,0.5);cursor:pointer;width:100%}
 .confetti-btn:active{transform:scale(0.97)}
 
-.skip-btn{padding:10px 20px;font-size:0.85rem;background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);border-radius:25px;color:#fff}
 .game-btn{padding:16px 30px;font-size:1.1rem;font-weight:bold;background:linear-gradient(135deg,#ff2d95,#00d4ff);border:none;border-radius:30px;color:#fff;box-shadow:0 4px 20px rgba(255,45,149,0.5);animation:pulse 1.5s infinite;width:100%}
-.dj{display:flex;flex-direction:column;align-items:center;animation:bounce 0.5s infinite}
-.dj-head{font-size:clamp(40px,10vw,60px);animation:headBob 0.3s infinite alternate}
-.dj-body{font-size:clamp(50px,12vw,70px);margin:-10px 0}
-.dj-arm{position:absolute;top:30%;font-size:clamp(30px,8vw,45px);animation:armWave 0.4s infinite alternate}
-.dj-arm.left{left:-50%;transform:rotate(-30deg)}
-.dj-arm.right{right:-50%;transform:rotate(30deg)}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-@keyframes headBob{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
-@keyframes armWave{from{transform:rotate(-20deg)}to{transform:rotate(20deg)}}
-.dj-deck{display:flex;gap:20px;margin-top:-10px}
-.deck{width:30px;height:80px;background:linear-gradient(180deg,#333,#111);border-radius:5px;animation:spinDeck 1s linear infinite}
-@keyframes spinDeck{from{transform:rotateY(0deg)}to{transform:rotateY(360deg)}}
 
 .stars{position:absolute;inset:0}
 .star{position:absolute;width:3px;height:3px;background:#fff;border-radius:50%;animation:twinkle 2s infinite}
@@ -194,17 +219,55 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
   <div class="stars" id="stars"></div>
   <div class="floor"></div>
   
-  <!-- DJ Booth -->
+  <!-- DJ Booth - Real DJ with moving arms -->
   <div class="dj-booth">
-    <div class="dj">
-      <div class="dj-head">🎧</div>
-      <div class="dj-body">🎛️</div>
-      <div class="dj-arm left">💃</div>
-      <div class="dj-arm right">💃</div>
-    </div>
-    <div class="dj-deck">
-      <div class="deck left"></div>
-      <div class="deck right"></div>
+    <div class="dj-table">
+      <div class="dj">
+        <div class="dj-head">
+          <div class="dj-face">
+            <div class="dj-hair"></div>
+            <div class="dj-eyes">
+              <div class="eye left"></div>
+              <div class="eye right"></div>
+            </div>
+            <div class="dj-mouth"></div>
+          </div>
+          <div class="dj-headphones left"></div>
+          <div class="dj-headphones right"></div>
+        </div>
+        <div class="dj-torso">
+          <div class="dj-shirt">
+            <div class="dj-logo">DJ</div>
+          </div>
+          <div class="dj-arm left-arm">
+            <div class="arm-upper"></div>
+            <div class="arm-lower">
+              <div class="hand" id="djHandLeft"></div>
+            </div>
+          </div>
+          <div class="dj-arm right-arm">
+            <div class="arm-upper"></div>
+            <div class="arm-lower">
+              <div class="hand" id="djHandRight"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dj-decks">
+        <div class="deck turntable">
+          <div class="vinyl"></div>
+          <div class="tonearm"></div>
+        </div>
+        <div class="mixer">
+          <div class="fader"></div>
+          <div class="knob"></div>
+          <div class="knob"></div>
+        </div>
+        <div class="deck turntable">
+          <div class="vinyl"></div>
+          <div class="tonearm"></div>
+        </div>
+      </div>
     </div>
   </div>
   
