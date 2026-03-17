@@ -907,20 +907,16 @@ function saveScore() {
   savedScores.push({name: name.toUpperCase(), score: flappyScore, date: new Date().toISOString()});
   localStorage.setItem('flappyScores', JSON.stringify(savedScores));
   
-  // Show saved message and reload leaderboard
+  // Show saved message
   var btn = document.getElementById('saveScoreBtn');
   btn.textContent = '✅ SAVED!';
-  btn.style.background = '#00ff88';
+  btn.style.background = '#34C759';
+  btn.style.color = '#fff';
   
-  // Save locally
   setTimeout(function() {
-    btn.textContent = '✅ SAVED!';
+    btn.textContent = '💾 SAVE SCORE';
     btn.style.background = '#34C759';
-    setTimeout(function() {
-      btn.textContent = '💾 SAVE SCORE';
-      btn.style.background = '#34C759';
-    }, 2000);
-  }, 500);
+  }, 3000);
   
   loadLeaderboard();
 }
