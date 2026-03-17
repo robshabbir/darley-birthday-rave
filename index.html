@@ -228,6 +228,7 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
       <div style="font-size:18px;font-weight:bold;color:#ffd600;margin-bottom:10px">🏆 TOP SCORES 🏆</div>
       <div id="leaderboardList" style="font-size:14px"></div>
     </div>
+    <a href="https://docs.google.com/spreadsheets/d/155URWgYdyOgKXkJG9A3e6X3CWEFIE00WkgZvvRg-q6M/edit" target="_blank" style="display:block;padding:10px;background:rgba(255,255,255,0.2);border-radius:10px;color:#fff;text-decoration:none;margin:10px 0;font-size:14px">📊 View Global Leaderboard</a>
     <button id="flappyReplayBtn" style="padding:15px 40px;font-size:20px;background:#ff2d95;border:none;border-radius:25px;color:#fff;margin:10px">🔄 PLAY AGAIN</button>
     <button id="flappyBackBtn" style="padding:15px 40px;font-size:20px;background:#00d4ff;border:none;border-radius:25px;color:#fff;margin:10px">🎉 BACK TO PARTY</button>
   </div>
@@ -768,7 +769,12 @@ function saveScore() {
   var savedScores = JSON.parse(localStorage.getItem('flappyScores') || '[]');
   savedScores.push({name: name.toUpperCase(), score: flappyScore, date: new Date().toISOString()});
   localStorage.setItem('flappyScores', JSON.stringify(savedScores));
-  alert('Score saved! 🎉');
+  
+  // Open Google Form to submit score globally
+  var formUrl = 'https://docs.google.com/forms/d/e/155URWgYdyOgKXkJG9A3e6X3CWEFIE00WkgZvvRg-q6M/viewform?usp=pp_url&entry.2005620554=' + encodeURIComponent(name) + '&entry.104549129=' + flappyScore;
+  window.open(formUrl, '_blank');
+  
+  alert('Score saved! 🎉 Check the leaderboard at the party!');
   loadLeaderboard();
 }
 
