@@ -226,7 +226,7 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
     <button id="saveScoreBtn" style="padding:12px 30px;font-size:18px;background:#00ff88;border:none;border-radius:25px;color:#000;margin:5px;display:block;width:80%;margin:0 auto 15px">💾 SAVE SCORE</button>
     <div id="leaderboard" style="background:rgba(255,255,255,0.1);border-radius:15px;padding:15px;margin:15px 0;text-align:left;max-height:200px;overflow-y:auto">
       <div style="font-size:18px;font-weight:bold;color:#ffd600;margin-bottom:10px">🏆 TOP SCORES 🏆</div>
-      <div id="leaderboardList" style="font-size:14px"></div>
+    <div id="flappyLeaderboardList" style="font-size:14px"></div>
     </div>
     <a href="https://docs.google.com/spreadsheets/d/155URWgYdyOgKXkJG9A3e6X3CWEFIE00WkgZvvRg-q6M/edit" target="_blank" style="display:block;padding:10px;background:rgba(255,255,255,0.2);border-radius:10px;color:#fff;text-decoration:none;margin:10px 0;font-size:14px">📊 View Global Leaderboard</a>
     <button id="flappyReplayBtn" style="padding:15px 40px;font-size:20px;background:#ff2d95;border:none;border-radius:25px;color:#fff;margin:10px">🔄 PLAY AGAIN</button>
@@ -761,7 +761,7 @@ function loadLeaderboard() {
     var medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i+1) + '.';
     html += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.1)"><span>' + medal + ' ' + s.name + '</span><span style="color:#00ff88;font-weight:bold">' + s.score + '</span></div>';
   });
-  document.getElementById('leaderboardList').innerHTML = html;
+  document.getElementById('flappyLeaderboardList').innerHTML = html;
 }
 
 function saveScore() {
@@ -769,7 +769,17 @@ function saveScore() {
   var savedScores = JSON.parse(localStorage.getItem('flappyScores') || '[]');
   savedScores.push({name: name.toUpperCase(), score: flappyScore, date: new Date().toISOString()});
   localStorage.setItem('flappyScores', JSON.stringify(savedScores));
-  alert('Score saved! 🎉 Your score: ' + flappyScore);
+  
+  // Show saved message and reload leaderboard
+  var btn = document.getElementById('saveScoreBtn');
+  btn.textContent = '✅ SAVED!';
+  btn.style.background = '#00ff88';
+  
+  setTimeout(function() {
+    btn.textContent = '💾 SAVE SCORE';
+    btn.style.background = '#00ff88';
+  }, 2000);
+  
   loadLeaderboard();
 }
 
