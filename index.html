@@ -267,9 +267,12 @@ function startFlow() {
   setTimeout(function() {
     document.getElementById('scene-walk').classList.remove('active');
     document.getElementById('scene-id').classList.add('active');
+    // RAVE CONFETTI during ID check!
+    var idConfetti = setInterval(function() { spawnConfetti(8); }, 300);
     setTimeout(function() {
       document.getElementById('idOk').classList.add('show');
       setTimeout(function() {
+        clearInterval(idConfetti);
         document.getElementById('scene-id').classList.remove('active');
         startScan();
       }, 2000);
@@ -279,6 +282,8 @@ function startFlow() {
 
 function startScan() {
   document.getElementById('scene-scan').classList.add('active');
+  // RAVE CONFETTI during scan!
+  var scanConfetti = setInterval(function() { spawnConfetti(8); }, 300);
   
   var statuses = ['SCANNING...','ANALYZING...','CHECKING...','ALMOST DONE...'];
   var si = setInterval(function() {
@@ -296,6 +301,7 @@ function startScan() {
   setTimeout(function() {
     clearInterval(si);
     clearInterval(itemInt);
+    clearInterval(scanConfetti);
     document.getElementById('scanStatus').textContent = 'NO DRUGS FOUND! 😄';
     document.getElementById('scanStatus').className = 'scan-status clear';
     document.getElementById('scanResult').classList.add('show');
@@ -323,6 +329,8 @@ function startCountdown() {
     document.getElementById('countNum').style.animation = 'none';
     document.getElementById('countNum').offsetHeight;
     document.getElementById('countNum').style.animation = 'pop 0.5s';
+    // Extra confetti during countdown!
+    spawnConfetti(5);
     if(n === 0) {
       clearInterval(iv);
       document.getElementById('countdown').classList.remove('active');
@@ -364,6 +372,11 @@ function triggerFlash() {
 
 // ===== GAME FUNCTIONS =====
 document.getElementById('gameBtn').onclick = function(e) {
+  e.stopPropagation();
+  startGame();
+};
+document.getElementById('gameBtn').ontouchstart = function(e) {
+  e.preventDefault();
   e.stopPropagation();
   startGame();
 };
