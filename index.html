@@ -131,7 +131,6 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
 <div id="scene-id" class="scene">
   <div class="id-card">
     <img src="darley-photo.jpg" alt="Darley" style="width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid #00d4ff;margin-bottom:15px">
-    <div class="id-cam"></div>
     <div class="id-name">DARLEY</div>
     <div class="id-dob">DOB: 03/15/2001</div>
     <div class="id-age">AGE: 25</div>
@@ -155,7 +154,7 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
 </div>
 
 <div id="countdown" class="scene">
-  <div class="count-num" id="countNum">3</div>
+  <div class="count-num" id="countNum"></div>
   <div class="count-txt">LET'S GET THIS PARTY STARTED!</div>
 </div>
 
@@ -312,6 +311,13 @@ function startScan() {
 function startCountdown() {
   document.getElementById('countdown').classList.add('active');
   var n = 3;
+  // Show initial number immediately, then start interval
+  document.getElementById('countNum').textContent = n;
+  document.getElementById('countNum').style.animation = 'none';
+  document.getElementById('countNum').offsetHeight;
+  document.getElementById('countNum').style.animation = 'pop 0.5s';
+  n--;
+  
   var iv = setInterval(function() {
     document.getElementById('countNum').textContent = n > 0 ? n : '🎉';
     document.getElementById('countNum').style.animation = 'none';
