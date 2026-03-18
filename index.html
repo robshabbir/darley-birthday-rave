@@ -50,7 +50,8 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
 .count-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(10rem,50vw,25rem); color: white; text-shadow: 0 0 100px #ff2d95; animation: pop 0.5s; }
 .count-txt { color: #00d4ff; font-size: clamp(1rem,4vw,1.8rem); margin-top: 30px; }
 @keyframes pop { 0%{transform:scale(0.2);opacity:0} 60%{transform:scale(1.3)} 100%{transform:scale(1);opacity:1} }
-#party { background: #000; position: fixed; inset: 0; overflow: hidden; }
+#party { background: #000; position: fixed; inset: 0; overflow: hidden; display: none; }
+#party.active { display: block; }
 .party-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at center,#2a0040,#000); animation: bgPulse 4s infinite; }
 @keyframes bgPulse { 0%,100%{background:radial-gradient(ellipse at 30% 20%,#2a0040,#000)} 50%{background:radial-gradient(ellipse at 70% 30%,#002040,#000)} }
 .lights { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
@@ -93,11 +94,13 @@ body { background: #0a0a12; font-family: Arial, sans-serif; color: white; overfl
 .dj-logo{font-size:14px;font-weight:bold;color:#00ffff;text-shadow:0 0 5px #00ffff}
 
 /* DJ Arms */
-.dj-arm{position:absolute;top:5px;width:12px;height:35px;background:#8B4513;border-radius:5px}
-.dj-arm.left-arm{left:-25px;transform-origin:top center;animation:leftArmMove 0.4s infinite alternate}
-.dj-arm.right-arm{right:-25px;transform-origin:top center;animation:rightArmMove 0.4s infinite alternate}
-@keyframes leftArmMove{from{transform:rotate(-15deg)}to{transform:rotate(25deg)}}
-@keyframes rightArmMove{from{transform:rotate(-25deg)}to{transform:rotate(15deg)}}
+.dj-arm{position:absolute;top:0;width:14px;height:40px;background:linear-gradient(180deg,#8B4513,#5D3A1A);border-radius:8px;box-shadow:0 0 15px #ff00ff,0 0 25px #00ffff}
+.dj-arm.left-arm{left:-30px;transform-origin:top center;animation:leftArmMove 0.5s ease-in-out infinite alternate}
+.dj-arm.right-arm{right:-30px;transform-origin:top center;animation:rightArmMove 0.5s ease-in-out infinite alternate}
+.dj-arm::before{content:'';position:absolute;bottom:-18px;left:-2px;width:18px;height:22px;background:linear-gradient(180deg,#8B4513,#5D3A1A);border-radius:8px}
+.dj-arm::after{content:'';position:absolute;bottom:-30px;left:-6px;width:26px;height:18px;background:linear-gradient(180deg,#deb887,#c9a86c);border-radius:10px 10px 15px 15px;box-shadow:0 0 20px #ff00ff,0 0 30px #00ffff}
+@keyframes leftArmMove{from{transform:rotate(-20deg)}to{transform:rotate(30deg)}}
+@keyframes rightArmMove{from{transform:rotate(-30deg)}to{transform:rotate(20deg)}}
 .arm-lower{position:absolute;bottom:-20px;left:0;width:12px;height:22px;background:#8B4513;border-radius:5px}
 .hand{position:absolute;bottom:-12px;left:-5px;width:22px;height:15px;background:#deb887;border-radius:5px 5px 10px 10px;box-shadow:0 0 10px #ff00ff}
 
@@ -457,9 +460,12 @@ function startCountdown() {
 }
 
 function startParty() {
+  document.getElementById('party').classList.add('active');
+  document.getElementById('party').style.display = 'block';
+  document.getElementById('tapHint').style.display = 'block';
   setInterval(function() { spawnConfetti(6); }, 800);
   setTimeout(function() {
-    document.getElementById('gameBtn').style.display = 'block';
+    document.getElementById('gameBtn').style.display = 'flex';
   }, 6000);
 }
 
@@ -542,8 +548,8 @@ document.getElementById('gameBtn').ontouchstart = function(e) {
   initFlappyGame();
 };
 
-// Crazy confetti button
-document.getElementById('confettiBtn').onclick = function(e) {
+// Crazy confetti button - works on both click and touch
+function triggerMegaConfetti() {
   e.stopPropagation();
   // Drop crazy amount of confetti and drugs!
   for(var i=0; i<50; i++) {
@@ -561,11 +567,11 @@ document.getElementById('confettiBtn').onclick = function(e) {
       }, j * 100);
     }
   }, 1000);
-};
+}
+document.getElementById('confettiBtn').onclick = triggerMegaConfetti;
 document.getElementById('confettiBtn').ontouchstart = function(e) {
   e.preventDefault();
-  e.stopPropagation();
-  document.getElementById('confettiBtn').click();
+  triggerMegaConfetti();
 };
 
 document.getElementById('skipBtn').onclick = function(e) {
